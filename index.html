@@ -291,7 +291,7 @@
     <div class="kpis c5">
       <div class="kpi k-in clickable" data-tip="join"><div class="label">입사자</div><div class="num" data-count="join">–</div></div>
       <div class="kpi k-sch clickable" data-tip="sched"><div class="label">입사예정</div><div class="num" data-count="sched">–</div></div>
-      <div class="kpi k-res clickable" data-tip="resign"><div class="label">퇴사자</div><div class="num" data-count="resign">–</div></div>
+      <div class="kpi k-res clickable" data-tip="resign"><div class="label">퇴사(예정)자</div><div class="num" data-count="resign">–</div></div>
       <div class="kpi k-mv clickable" data-tip="move"><div class="label">부서·파트이동자</div><div class="num" data-count="move">–</div></div>
       <div class="kpi k-lv clickable" data-tip="leave"><div class="label">휴직(예정)자</div><div class="num" data-count="leave">–</div></div>
     </div>
@@ -300,7 +300,7 @@
       <div class="hero-flow">
         <div class="hf"><div class="hf-lbl">현재 총원 (7.16)</div><div class="hf-num">124<small>명</small></div></div>
         <div class="hf-mid">＋ 채용 <b id="hf-hire">9</b>명 · 잔여 <span class="rr" id="hf-rem">21</span>명<div class="arw">→</div></div>
-        <div class="hf"><div class="hf-lbl">채용완료 시 총원</div><div class="hf-num accent">146<small>명</small></div></div>
+        <div class="hf"><div class="hf-lbl">채용완료 시 총원</div><div class="hf-num accent">144<small>명</small></div></div>
       </div>
       <div class="hero-bar" id="heroBar"></div>
       <div class="hero-scale"><span>총 TO 31명 기준</span><span id="heroPct"></span></div>
@@ -357,7 +357,7 @@
     <div class="kpis c5">
       <div class="kpi k-in clickable" data-tip="join"><div class="label">입사자</div><div class="num" data-count="join">–</div></div>
       <div class="kpi k-sch clickable" data-tip="sched"><div class="label">입사예정</div><div class="num" data-count="sched">–</div></div>
-      <div class="kpi k-res clickable" data-tip="resign"><div class="label">퇴사자</div><div class="num" data-count="resign">–</div></div>
+      <div class="kpi k-res clickable" data-tip="resign"><div class="label">퇴사(예정)자</div><div class="num" data-count="resign">–</div></div>
       <div class="kpi k-mv clickable" data-tip="move"><div class="label">부서·파트이동자</div><div class="num" data-count="move">–</div></div>
       <div class="kpi k-lv clickable" data-tip="leave"><div class="label">휴직(예정)자</div><div class="num" data-count="leave">–</div></div>
     </div>
@@ -373,7 +373,7 @@
 
   <footer>
     <b>데이터 출처</b> : GMDSOFT 2026년도 팀별 채용계획 상세내용 JD_취합본 · 「26년 채용계획 및 현황_260716」 + 「2026 통합채용 JD」 시트 (2026.07.16 기준)<br>
-    현재 총원 124명 · 총 TO 31 · 입사 8 · 입사예정 1 · 잔여 TO 21 · 채용완료 시 총원 146명 · <span style="color:#c8863a">JD "임시 초안" 표기 항목은 확인·수정 필요</span><br>
+    현재 총원 124명 · 총 TO 31 · 입사 8 · 입사예정 1 · 잔여 TO 21 · 채용완료 시 총원 144명 · <span style="color:#c8863a">JD "임시 초안" 표기 항목은 확인·수정 필요</span><br>
     ※ 본 대시보드에는 임직원 실명이 포함되어 있습니다. 외부 공개 시 개인정보 처리에 유의하세요.
   </footer>
 </div>
@@ -439,7 +439,7 @@ const DATA=[
   joinDet:[{n:"오상원",p:"보안기술연구",d:"3/16",k:"base",ref:""},{n:"윤지완",p:"응용프로그램 개발",d:"6/1",k:"rep",ref:"박준수_2/1_부서이동"}],schedDet:[],memo:"",addReason:"홍성은 육아휴직예정으로 인한 대체채용 TO"},
  {company:"GMDSOFT",team:"AI팀",base:10,current:9,to_plan:2,to_add:0,to_total:2,joined:0,scheduled:0,remain:2,total_after:11,
   posOpen:[{t:"AI 엔지니어",n:2,k:"base",ref:"",when:"6월"}],joinDet:[],schedDet:[],memo:"",addReason:""},
- {company:"GMDSOFT",team:"FRONT팀",base:8,current:7,to_plan:0,to_add:1,to_total:1,joined:0,scheduled:0,remain:1,total_after:8,
+ {company:"GMDSOFT",team:"FRONT팀",base:8,current:7,to_plan:0,to_add:1,to_total:1,joined:0,scheduled:0,remain:1,total_after:7,
   posOpen:[{t:"국내 기술지원",n:1,k:"rep",ref:"금상현_5/26_퇴사",when:""}],joinDet:[],schedDet:[],memo:"",addReason:"금상현 5/26 퇴사로 인한 대체채용 TO"},
  {company:"GMDSOFT",team:"분석팀",base:3,current:3,to_plan:1,to_add:1,to_total:2,joined:1,scheduled:0,remain:1,total_after:4,
   posOpen:[{t:"아티팩트연구",n:1,k:"base",ref:"",when:""}],joinDet:[{n:"김정민",p:"아티팩트연구",d:"2/23",k:"rep",ref:"이혜빈"}],schedDet:[],memo:"",addReason:"이혜빈 대체채용 TO (김정민 2/23 입사 충원)"},
@@ -453,7 +453,7 @@ const DATA=[
   posOpen:[],joinDet:[],schedDet:[{n:"김다정",p:"국내마케팅",d:"7/20",k:"rep",ref:"오영근_3/25_퇴사"}],memo:"",addReason:""},
  {company:"GMDSOFT",team:"제품기획팀",base:8,current:8,to_plan:0,to_add:2,to_total:2,joined:1,scheduled:0,remain:1,total_after:9,
   posOpen:[{t:"PO (Product Owner)",n:1,k:"new",ref:"",when:""}],joinDet:[{n:"류채영",p:"PD (Product Designer)",d:"6/15",k:"rep",ref:"김은비_3/23_부서이동"}],schedDet:[],memo:"기초인원 석진우 이사님 포함",addReason:"PO 신규 증원 1 + PD 김은비 3/23 부서이동 대체 1"},
- {company:"GMDSOFT",team:"경영기획팀",base:6,current:6,to_plan:0,to_add:2,to_total:2,joined:1,scheduled:0,remain:1,total_after:7,
+ {company:"GMDSOFT",team:"경영기획팀",base:6,current:6,to_plan:0,to_add:2,to_total:2,joined:1,scheduled:0,remain:1,total_after:6,
   posOpen:[{t:"재무회계",n:1,k:"rep",ref:"이규열_하반기_퇴사예정",when:""}],joinDet:[{n:"서우람",p:"재무회계",d:"3/9",k:"rep",ref:"이영서_3/31_퇴사"}],schedDet:[],memo:"",addReason:"이영서 3/31 퇴사 대체 1 + 이규열 하반기 퇴사예정 대체 1"},
  {company:"GMDSOFT",team:"경영진(CEO,CTO)",base:2,current:2,to_plan:0,to_add:0,to_total:0,joined:0,scheduled:0,remain:0,total_after:2,posOpen:[],joinDet:[],schedDet:[],memo:"",addReason:""},
  {company:"더스팟",team:"더스팟",base:6,current:7,to_plan:1,to_add:0,to_total:1,joined:1,scheduled:0,remain:0,total_after:7,
@@ -565,7 +565,7 @@ const RESIGN=[
 ];
 const RESIGN_PLAN=[
  {n:"이규열",team:"경영기획팀",p:"재무회계",d:"하반기 예정",note:""},
- {n:"김성환",team:"국내사업팀",p:"현장지원",d:"8월말 예정",note:"7월말 마지막근무 예정"}
+ {n:"김성환",team:"FRONT팀",p:"현장지원",d:"8월말 예정",note:"부서이동예정_국내사업팀"}
 ];
 const LEAVE=[
  /* 휴직중 (status:"current") */
@@ -597,7 +597,7 @@ const T={cur:sum("current"),to:sum("to_total"),in:sum("joined"),sch:sum("schedul
 const JOIN_FLAT=[],SCHED_FLAT=[];
 DATA.forEach(d=>{d.joinDet.forEach(j=>JOIN_FLAT.push(Object.assign({team:d.team},j)));d.schedDet.forEach(j=>SCHED_FLAT.push(Object.assign({team:d.team},j)));});
 JOIN_FLAT.sort((a,b)=>{const f=s=>{const[m,dd]=s.d.split("/");return (+m)*100+(+dd||0);};return f(a)-f(b);});
-const COUNTS={join:JOIN_FLAT.length,sched:SCHED_FLAT.length,resign:RESIGN.length,move:MOVE.length,leave:LEAVE.length};
+const COUNTS={join:JOIN_FLAT.length,sched:SCHED_FLAT.length,resign:RESIGN.length+RESIGN_PLAN.length,move:MOVE.length,leave:LEAVE.length};
 
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.tab).classList.add("active");hideTip();closePop();});
 
@@ -611,7 +611,7 @@ function liRows(arr){return arr.map(x=>`<li><span class="w">${x[0]}</span><span 
 const TIPS={
   join:()=>tHead("입사자",COUNTS.join)+`<ul>${liRows(JOIN_FLAT.map(j=>[j.n,`${j.team} · ${j.p} · ${j.d}`]))}</ul><div class="clk">클릭 → 팀별 상세 팝업</div>`,
   sched:()=>tHead("입사예정",COUNTS.sched)+`<ul>${liRows(SCHED_FLAT.map(j=>[j.n,`${j.team} · ${j.p} · ${j.d}`]))}</ul><div class="clk">클릭 → 팀별 상세 팝업</div>`,
-  resign:()=>tHead("퇴사자 (2026년)",COUNTS.resign)+`<ul>${liRows(RESIGN.map(r=>[r.n,`${r.team} · ${r.p} · ${r.d}`]))}</ul><div class="div">▸ 퇴사 예정</div><ul>${liRows(RESIGN_PLAN.map(r=>[r.n,`${r.team} · ${r.d}`]))}</ul>`,
+  resign:()=>tHead("퇴사(예정)자",COUNTS.resign)+`<ul>${liRows(RESIGN.map(r=>[r.n,`${r.team} · ${r.p} · ${r.d}`]))}</ul><div class="div">▸ 퇴사 예정</div><ul>${liRows(RESIGN_PLAN.map(r=>[r.n,`${r.team} · ${r.d}`]))}</ul>`,
   move:()=>tHead("부서·파트 이동",COUNTS.move)+`<ul>${liRows(MOVE.map(m=>[m.n,m.type]))}</ul><div class="clk">클릭 → 상세 표</div>`,
   leave:()=>tHead("휴직(예정)자",COUNTS.leave)+`<ul>${liRows(LEAVE.map(l=>[l.n,`${l.team} · ${leaveKind(l)}${l.tag?" · "+l.tag:""}`]))}</ul><div class="clk">클릭 → 개인별 상세</div>`,
   remain:()=>tHead("잔여 TO",T.rem)+`<ul>${liRows(DATA.filter(d=>d.remain>0).map(d=>[d.team,d.remain+"명"]))}</ul><div class="clk">클릭 → 팀별 포지션 팝업</div>`,
@@ -653,7 +653,7 @@ function showMove(){
 }
 function showResign(){
   const teams=[...new Set(RESIGN.map(r=>r.team))];
-  openWith(popHead("퇴사자 (2026년)",RESIGN.length)+`<div class="pop-hint">팀을 클릭하면 상세, 하단은 퇴사 예정자</div><div class="team-btns">`+teams.map(tm=>`<button class="tbtn" data-tm="${tm}"><span>${tm}</span><span class="tb-n">${RESIGN.filter(r=>r.team===tm).length}</span></button>`).join("")+`</div><div class="pop-sub">▸ 퇴사 예정</div><table class="ptbl"><thead><tr><th>이름</th><th>팀</th><th>포지션</th><th>시기</th></tr></thead><tbody>`+RESIGN_PLAN.map(r=>`<tr><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}${r.note?`<span class="note">${r.note}</span>`:""}</td></tr>`).join("")+`</tbody></table>`);
+  openWith(popHead("퇴사(예정)자 (2026년)",RESIGN.length+RESIGN_PLAN.length)+`<div class="pop-hint">팀을 클릭하면 상세, 하단은 퇴사 예정자</div><div class="team-btns">`+teams.map(tm=>`<button class="tbtn" data-tm="${tm}"><span>${tm}</span><span class="tb-n">${RESIGN.filter(r=>r.team===tm).length}</span></button>`).join("")+`</div><div class="pop-sub">▸ 퇴사 예정</div><table class="ptbl"><thead><tr><th>이름</th><th>팀</th><th>포지션</th><th>시기</th></tr></thead><tbody>`+RESIGN_PLAN.map(r=>`<tr><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}${r.note?`<span class="note">${r.note}</span>`:""}</td></tr>`).join("")+`</tbody></table>`);
   pop.querySelectorAll(".tbtn").forEach(b=>b.onclick=()=>{const tm=b.dataset.tm,list=RESIGN.filter(r=>r.team===tm);openWith(popHead(tm+" · 퇴사자",list.length)+`<button class="backbtn">‹ 팀 목록</button><table class="ptbl"><thead><tr><th>이름</th><th>포지션</th><th>퇴사일</th></tr></thead><tbody>`+list.map(r=>`<tr><td class="nm">${r.n}</td><td>${r.p}</td><td>${r.d}</td></tr>`).join("")+`</tbody></table>`);pop.querySelector(".backbtn").onclick=showResign;});
 }
 function leaveGroupHTML(){
