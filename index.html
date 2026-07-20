@@ -565,7 +565,7 @@ const RESIGN=[
 ];
 const RESIGN_PLAN=[
  {n:"이규열",team:"경영기획팀",p:"재무회계",d:"하반기 예정",note:""},
- {n:"김성환",team:"FRONT팀",p:"현장지원",d:"8월말 예정",note:"부서이동예정_국내사업팀"}
+ {n:"김성환",team:"FRONT팀",p:"현장지원",d:"8월말 예정",note:"퇴사 이후 부서이동예정 - 국내사업팀(대체TO반영)"}
 ];
 const LEAVE=[
  /* 휴직중 (status:"current") */
@@ -611,7 +611,7 @@ function liRows(arr){return arr.map(x=>`<li><span class="w">${x[0]}</span><span 
 const TIPS={
   join:()=>tHead("입사자",COUNTS.join)+`<ul>${liRows(JOIN_FLAT.map(j=>[j.n,`${j.team} · ${j.p} · ${j.d}`]))}</ul><div class="clk">클릭 → 팀별 상세 팝업</div>`,
   sched:()=>tHead("입사예정",COUNTS.sched)+`<ul>${liRows(SCHED_FLAT.map(j=>[j.n,`${j.team} · ${j.p} · ${j.d}`]))}</ul><div class="clk">클릭 → 팀별 상세 팝업</div>`,
-  resign:()=>tHead("퇴사(예정)자",COUNTS.resign)+`<ul>${liRows(RESIGN.map(r=>[r.n,`${r.team} · ${r.p} · ${r.d}`]))}</ul><div class="div">▸ 퇴사 예정</div><ul>${liRows(RESIGN_PLAN.map(r=>[r.n,`${r.team} · ${r.d}`]))}</ul>`,
+  resign:()=>tHead("퇴사(예정)자",COUNTS.resign)+`<ul>${liRows(RESIGN.map(r=>[r.n,`${r.team} · ${r.p} · ${r.d}`]))}</ul><div class="div">▸ 퇴사 예정</div><ul>${liRows(RESIGN_PLAN.map(r=>[r.n,`${r.team} · ${r.p} · ${r.d}${r.note?" · 비고: "+r.note:""}`]))}</ul>`,
   move:()=>tHead("부서·파트 이동",COUNTS.move)+`<ul>${liRows(MOVE.map(m=>[m.n,m.type]))}</ul><div class="clk">클릭 → 상세 표</div>`,
   leave:()=>tHead("휴직(예정)자",COUNTS.leave)+`<ul>${liRows(LEAVE.map(l=>[l.n,`${l.team} · ${leaveKind(l)}${l.tag?" · "+l.tag:""}`]))}</ul><div class="clk">클릭 → 개인별 상세</div>`,
   remain:()=>tHead("잔여 TO",T.rem)+`<ul>${liRows(DATA.filter(d=>d.remain>0).map(d=>[d.team,d.remain+"명"]))}</ul><div class="clk">클릭 → 팀별 포지션 팝업</div>`,
@@ -653,7 +653,7 @@ function showMove(){
 }
 function showResign(){
   const teams=[...new Set(RESIGN.map(r=>r.team))];
-  openWith(popHead("퇴사(예정)자 (2026년)",RESIGN.length+RESIGN_PLAN.length)+`<div class="pop-hint">팀을 클릭하면 상세, 하단은 퇴사 예정자</div><div class="team-btns">`+teams.map(tm=>`<button class="tbtn" data-tm="${tm}"><span>${tm}</span><span class="tb-n">${RESIGN.filter(r=>r.team===tm).length}</span></button>`).join("")+`</div><div class="pop-sub">▸ 퇴사 예정</div><table class="ptbl"><thead><tr><th>이름</th><th>팀</th><th>포지션</th><th>시기</th></tr></thead><tbody>`+RESIGN_PLAN.map(r=>`<tr><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}${r.note?`<span class="note">${r.note}</span>`:""}</td></tr>`).join("")+`</tbody></table>`);
+  openWith(popHead("퇴사(예정)자 (2026년)",RESIGN.length+RESIGN_PLAN.length)+`<div class="pop-hint">팀을 클릭하면 상세, 하단은 퇴사 예정자</div><div class="team-btns">`+teams.map(tm=>`<button class="tbtn" data-tm="${tm}"><span>${tm}</span><span class="tb-n">${RESIGN.filter(r=>r.team===tm).length}</span></button>`).join("")+`</div><div class="pop-sub">▸ 퇴사 예정</div><table class="ptbl"><thead><tr><th>이름</th><th>팀</th><th>포지션</th><th>시기</th><th>비고</th></tr></thead><tbody>`+RESIGN_PLAN.map(r=>`<tr><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}</td><td>${r.note?r.note:"-"}</td></tr>`).join("")+`</tbody></table>`);
   pop.querySelectorAll(".tbtn").forEach(b=>b.onclick=()=>{const tm=b.dataset.tm,list=RESIGN.filter(r=>r.team===tm);openWith(popHead(tm+" · 퇴사자",list.length)+`<button class="backbtn">‹ 팀 목록</button><table class="ptbl"><thead><tr><th>이름</th><th>포지션</th><th>퇴사일</th></tr></thead><tbody>`+list.map(r=>`<tr><td class="nm">${r.n}</td><td>${r.p}</td><td>${r.d}</td></tr>`).join("")+`</tbody></table>`);pop.querySelector(".backbtn").onclick=showResign;});
 }
 function leaveGroupHTML(){
@@ -765,7 +765,7 @@ document.getElementById("posGrid").innerHTML=DATA.filter(d=>d.remain>0).map(d=>{
 bindPosLines(document.getElementById("posGrid"),null);
 
 document.getElementById("joinList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>팀</th><th>포지션</th><th>입사(예정)일</th></tr></thead><tbody>`+JOIN_FLAT.map(j=>`<tr><td><span class="tob base">입사</span></td><td class="nm">${j.n}</td><td>${j.team}</td><td>${j.p}</td><td>${j.d}</td></tr>`).join("")+SCHED_FLAT.map(j=>`<tr><td><span class="tob new">예정</span></td><td class="nm">${j.n}</td><td>${j.team}</td><td>${j.p}</td><td>${j.d}</td></tr>`).join("")+`</tbody></table>`;
-document.getElementById("resList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>팀</th><th>포지션</th><th>퇴사일</th></tr></thead><tbody>`+RESIGN.map(r=>`<tr><td><span class="tob rep">퇴사</span></td><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}</td></tr>`).join("")+RESIGN_PLAN.map(r=>`<tr><td><span class="tob pt">예정</span></td><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}${r.note?`<span class="note">${r.note}</span>`:""}</td></tr>`).join("")+`</tbody></table>`;
+document.getElementById("resList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>팀</th><th>포지션</th><th>시기</th><th>비고</th></tr></thead><tbody>`+RESIGN.map(r=>`<tr><td><span class="tob rep">퇴사</span></td><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}</td><td>${r.note?r.note:"-"}</td></tr>`).join("")+RESIGN_PLAN.map(r=>`<tr><td><span class="tob pt">예정</span></td><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}</td><td>${r.note?r.note:"-"}</td></tr>`).join("")+`</tbody></table>`;
 document.getElementById("movList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>이동 전</th><th>이동 후</th></tr></thead><tbody>`+MOVE.map(m=>`<tr><td>${m.type==="부서이동"?'<span class="tob mv">부서</span>':'<span class="tob pt">파트</span>'}</td><td class="nm">${m.n}</td><td>${m.fromT}<br><span class="posv">${m.fromP}</span></td><td>${m.toT}<br><span class="posv">${m.toP}</span>${m.d?` ${m.d}`:""}</td></tr>`).join("")+`</tbody></table>`;
 document.getElementById("lvList").innerHTML=leaveGroupHTML();
 bindLeaveChips(document.getElementById("lvList"),null);
