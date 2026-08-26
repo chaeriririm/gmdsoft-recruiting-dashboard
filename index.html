@@ -133,6 +133,7 @@
   .pos-li:first-child{border-top:none} .pos-li:hover{background:var(--surface2)}
   .pos-li::before{content:"";position:absolute;left:3px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
   .pos-li .pt2{font-weight:700} .pos-li .badges{margin-top:3px;display:flex;gap:5px;flex-wrap:wrap}
+  .pos-li .badges .tob{white-space:normal;max-width:100%;overflow-wrap:anywhere}
   .when{font-size:10.5px;color:var(--muted);background:var(--surface2);border-radius:6px;padding:1px 6px}
   .memo{margin-top:11px;font-size:12px;color:var(--muted);background:var(--surface2);border-radius:8px;padding:9px 11px;line-height:1.6}
 
@@ -461,13 +462,13 @@ document.addEventListener("DOMContentLoaded",()=>{
 const DATA=[
  {company:"GMDSOFT",team:"개발1팀",base:8,current:10,to_plan:1,to_int:-1,to_new:0,to_rep:1,to_total:1,joined:0,scheduled:0,remain:1,total_after:11,notice:"X",
   posOpen:[{t:"웹 프론트엔드 개발",n:1,k:"base",ref:"",when:"2월"}],joinDet:[],schedDet:[],
-  memo:"내부 전입 : 김정국(6/1 부서이동) · 심재혁(8/10 부서이동)",
+  memo:"내부 전입 : 김정국(6/1_부서이동)\n심재혁(8/10_부서이동)",
   intReason:"심재혁 8/10 부서이동(개발3팀 응용프로그램개발 → 개발1팀 플랫폼파트 웹개발)으로 웹개발 TO 내부충원 (△1)",
   addReason:"정재봉 6/1 파트이동(개발1팀 플랫폼파트→인프라파트)으로 인한 대체채용 TO 1"},
  {company:"GMDSOFT",team:"개발2팀",base:14,current:14,to_plan:3,to_int:0,to_new:0,to_rep:0,to_total:3,joined:1,scheduled:0,remain:2,total_after:16,notice:"O",
   posOpen:[{t:"PM",n:2,k:"base",ref:"채용포지션 변경(8/5) : 응용프로그램개발·분석엔지니어 → PM",when:"9월"}],
   joinDet:[{n:"권형근",p:"제품개발",d:"2/2",k:"base",ref:""}],schedDet:[],
-  memo:"이강희 8/10 부서이동(→개발3팀) 대체채용 요청서 상신 전 · 잔여 TO 2 → PM 2로 포지션 변경(8/5)",addReason:""},
+  memo:"잔여 TO 2 → PM 2로 포지션 변경(8/5)",addReason:""},
  {company:"GMDSOFT",team:"개발3팀",base:7,current:7,to_plan:1,to_int:-1,to_new:0,to_rep:0,to_total:0,joined:0,scheduled:0,remain:0,total_after:7,notice:"–",
   posOpen:[],joinDet:[],schedDet:[],
   memo:"내부 전입 : 이강희(8/10 부서이동) → 비디오포렌식 엔진개발 TO 충원 · 심재혁 부서이동 대체채용 요청서 상신 전",
@@ -479,26 +480,26 @@ const DATA=[
   addReason:"홍성은 육아휴직예정으로 인한 대체채용 TO 1"},
  {company:"GMDSOFT",team:"AI팀",base:10,current:9,to_plan:2,to_int:0,to_new:0,to_rep:0,to_total:2,joined:0,scheduled:0,remain:2,total_after:11,notice:"X",
   posOpen:[{t:"AI 엔지니어",n:2,k:"base",ref:"",when:"6월"}],joinDet:[],schedDet:[],
-  memo:"최윤서 10/1 출산휴가 예정 (육아휴직 12개월 연계)",addReason:""},
+  memo:"",addReason:""},
  {company:"GMDSOFT",team:"FRONT팀",base:8,current:5,to_plan:0,to_int:0,to_new:0,to_rep:1,to_total:1,joined:0,scheduled:0,remain:1,total_after:6,notice:"X",
   posOpen:[{t:"국내 기술지원",n:1,k:"rep",ref:"금상현_5/26_퇴사",when:""}],joinDet:[],schedDet:[],
-  memo:"서울시 인턴 3개월 평가 후 전환여부 결정 · 김보연 8/1 부서이동(→국내사업팀 현장지원) · 김성환 8/31 퇴사예정(현장지원 대체TO는 국내사업팀에 반영)",
+  memo:"서울시 인턴 3개월 평가 후 전환여부 결정",
   addReason:"금상현 5/26 퇴사로 인한 대체채용 TO 1"},
  {company:"GMDSOFT",team:"분석팀",base:3,current:3,to_plan:1,to_int:0,to_new:0,to_rep:1,to_total:2,joined:1,scheduled:0,remain:1,total_after:4,notice:"O",
   posOpen:[{t:"아티팩트연구",n:1,k:"base",ref:"",when:""}],
-  joinDet:[{n:"김정민",p:"아티팩트연구",d:"2/23",k:"rep",ref:"이혜빈"}],schedDet:[],memo:"김대기 6/1 퇴사",
+  joinDet:[{n:"김정민",p:"아티팩트연구",d:"2/23",k:"rep",ref:"이혜빈"}],schedDet:[],memo:"김대기(6/1_퇴사)",
   addReason:"이혜빈 대체채용 TO 1 (김정민 2/23 입사 충원)"},
  {company:"GMDSOFT",team:"QA팀",base:5,current:4,to_plan:1,to_int:0,to_new:0,to_rep:0,to_total:1,joined:0,scheduled:1,remain:0,total_after:5,notice:"마감",
   posOpen:[],joinDet:[],schedDet:[{n:"이경은",p:"QA",d:"9/1",k:"rep",ref:"정예진_퇴사"}],
   memo:"정예진 퇴사 대체로 이경은 9/1 입사예정 · 강승희 2/4 퇴사 대체채용 요청서 상신 전",addReason:""},
- {company:"GMDSOFT",team:"국내사업팀",base:14,current:14,to_plan:1,to_int:0,to_new:0,to_rep:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:16,notice:"O (현장지원)",
-  posOpen:[{t:"상품기술지원",n:1,k:"rep",ref:"신영수_7/16_퇴사",when:"10월"},{t:"현장지원 및 기술영업",n:1,k:"rep",ref:"김성환_8/31_퇴사예정",when:"8월"}],
+ {company:"GMDSOFT",team:"국내사업팀",base:14,current:14,to_plan:1,to_int:0,to_new:0,to_rep:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:16,notice:"O (기술영업/현장지원)",
+  posOpen:[{t:"상품기술지원",n:1,k:"rep",ref:"신영수_7/16_퇴사",when:"10월"},{t:"기술영업·현장지원",n:1,k:"rep",ref:"김성환_8/31_퇴사예정",when:"8월"}],
   joinDet:[],schedDet:[],
-  memo:"박상준 8/3 퇴사 → 대체채용 요청서 상신 전 · 김보연 8/1 부서이동 전입(FRONT팀 현장지원 → 국내사업팀 현장지원)",
+  memo:"박상준 8/3 퇴사 → 대체채용 요청서 상신 전\n김보연(8/1_부서이동)",
   addReason:"김성환 8/31 퇴사예정 (현장지원 직무 국내사업팀 이관)으로 인한 대체채용 TO 1"},
  {company:"GMDSOFT",team:"글로벌사업팀",base:16,current:14,to_plan:1,to_int:0,to_new:0,to_rep:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:16,notice:"O (2개 포지션 동시 진행)",
   posOpen:[{t:"해외영업지원",n:1,k:"base",ref:"",when:"2월"},{t:"해외영업",n:1,k:"rep",ref:"신영수_2/1_부서이동",when:""}],
-  joinDet:[],schedDet:[],memo:"기초인원 전경복 전무님 포함 · 신남정·이효준 휴직중",
+  joinDet:[],schedDet:[],memo:"기초인원 전경복 전무님 포함",
   addReason:"신영수 2/1 부서이동(글로벌→국내)으로 인한 대체채용 TO 1"},
  {company:"GMDSOFT",team:"마케팅기획팀",base:2,current:4,to_plan:2,to_int:-1,to_new:0,to_rep:0,to_total:1,joined:1,scheduled:0,remain:0,total_after:4,notice:"마감",
   posOpen:[],joinDet:[{n:"김다정",p:"국내마케팅",d:"7/20",k:"base",ref:""}],schedDet:[],
@@ -520,8 +521,8 @@ const DATA=[
   posOpen:[],joinDet:[{n:"이정원",p:"획득기술연구",d:"4/13",k:"base",ref:""}],schedDet:[],memo:"",addReason:""},
  {company:"GMDSOFT India",team:"GMDSOFT India",base:0,current:2,to_plan:3,to_int:0,to_new:0,to_rep:0,to_total:3,joined:1,scheduled:0,remain:2,total_after:4,notice:"–",
   posOpen:[{t:"포털지원",n:1,k:"base",ref:"",when:""},{t:"기술지원",n:1,k:"base",ref:"",when:""}],
-  joinDet:[{n:"RAJA",p:"기술지원",d:"8/10",k:"base",ref:"대체_MANASA"}],schedDet:[],
-  memo:"PARTH 5/1 전적 · MANASA 6/1 입사 후 8/16 퇴사",addReason:""}
+  joinDet:[{n:"RAJA",p:"기술지원",d:"8/10",k:"base",ref:"",btag:"대체_MANASA"}],schedDet:[],
+  memo:"PARTH(5/1_전적)\nMANASA(6/1_입사 후 8/16_퇴사)",addReason:""}
 ];
 DATA.forEach(d=>{d.to_add=d.to_new+d.to_rep;});
 
@@ -575,7 +576,7 @@ const JD=[
   duty:["- 국내 고객 대상 상품 기술지원","- 제품 시연(Demo)·PoC 지원","- 기술 문의 대응 및 이슈 1차 대응"],
   must:["- IT/컴퓨터 기본 지식이 있는 분","- 고객 커뮤니케이션 역량이 있는 분"],
   pref:["- 디지털 포렌식/정보보안 분야에 관심이 있는 분","- 기술지원 경험이 있는 분"]},
- {team:"국내사업팀",title:"현장지원 및 기술영업",career:"신입/경력(3년↓)",edu:"대졸이상",
+ {team:"국내사업팀",title:"기술영업·현장지원",career:"신입/경력(3년↓)",edu:"대졸이상",
   duty:["- 디지털 포렌식·사이버 조사 분야 솔루션 기술영업 및 신규 고객 발굴","- 고객 요구사항 분석 기반 솔루션 제안, 제품 시연(Demo) 및 PoC 지원","- 고객사 방문을 통한 분석환경 점검 및 기술 이슈 1차 대응","- 시장·경쟁 솔루션 동향 분석 및 전시회·세미나 참여 등 대외 네트워킹","- 기존 고객 관리, 기술 세미나 및 교육 지원 등 기술영업·현장지원 업무 전반"],
   must:["- 경력 : 신입/경력(3년↓)","- 학력 : 대졸이상","- 고객 요구사항을 이해하고 논리적으로 설명하며, 다양한 이해관계자와 신뢰를 구축할 수 있는 분","- 새로운 기술·제품을 빠르게 습득하고 고객 관점에서 가치를 제안할 수 있는 분","- 자기주도적으로 학습하며 전문성을 지속적으로 향상시키고자 하는 분","- 프레젠테이션 및 제품 시연에 거부감이 없는 분","- 컴퓨터 및 IT 인프라 관련 기본 지식을 보유한 분","- 정보보안 또는 디지털 포렌식 분야에 관심이 있는 분","- 해외여행에 결격사유가 없는 분"],
   pref:["- 전산학, 정보보안, 디지털 포렌식 등 IT 관련 전공자","- 디지털 포렌식/정보보안/사이버보안 분야 기술영업 또는 기술지원 경험이 있는 분","- B2B 솔루션 제안, 제품 시연(Demo), PoC 수행 경험이 있는 분","- 공공기관, 수사기관, 국방, 금융 등 보안 관련 고객 대응 경험이 있는 분","- 영어 활용 기술 문서 검토 및 비즈니스 커뮤니케이션이 가능한 분","- 운전이 가능하며 고객사 방문/출장 업무 수행에 제약이 없는 분"]},
@@ -701,8 +702,9 @@ const COUNTS={join:JOIN_FLAT.length,sched:SCHED_FLAT.length,resign:RESIGN.length
 
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.tab).classList.add("active");hideTip();closePop();});
 
-function badge(k,ref){if(k==="rep")return ref?`<span class="tob rep">🔁 대체(${ref})</span>`:`<span class="tob rep">🔁 대체</span>`;if(k==="new")return `<span class="tob new">✨ 신규</span>`;return ref?`<span class="tob base">🔹 기존 TO (${ref})</span>`:`<span class="tob base">🔹 기존 TO</span>`;}
-function posLineHTML(p,idx,teamIdx){return `<li class="pos-li" data-team="${teamIdx}" data-pos="${idx}"><span class="pt2">${p.t} <b>${p.n}명</b></span><span class="badges">${badge(p.k,p.ref)}${p.when?`<span class="when">🗓 ${p.when}</span>`:""}</span></li>`;}
+function mmo(s){return (s||"").replace(/\n/g,"<br>");}
+function badge(k,ref,btag){if(k==="rep")return ref?`<span class="tob rep">🔁 대체(${ref})</span>`:`<span class="tob rep">🔁 대체</span>`;if(k==="new")return `<span class="tob new">✨ 신규</span>`;return btag?`<span class="tob base">🔹 기존 TO (${btag})</span>`:`<span class="tob base">🔹 기존 TO</span>`;}
+function posLineHTML(p,idx,teamIdx){return `<li class="pos-li" data-team="${teamIdx}" data-pos="${idx}"><span class="pt2">${p.t} <b>${p.n}명</b></span><span class="badges">${badge(p.k,p.ref,p.btag)}${p.when?`<span class="when">🗓 ${p.when}</span>`:""}</span></li>`;}
 function jdFor(team,title){return JD.filter(j=>j.team===team&&(j.title===title||j.title.indexOf(title)===0||title.indexOf(j.title)===0));}
 
 const tip=document.getElementById("tip");
@@ -757,12 +759,12 @@ function closePop(){pop.style.display="none";overlay.style.display="none";}
 overlay.onclick=closePop;document.addEventListener("keydown",e=>{if(e.key==="Escape")closePop();});
 
 const PT={join:"입사자",sched:"입사예정",remain:"잔여 TO 포지션",total:"총 TO"};
-function joinTable(list){return `<table class="ptbl"><thead><tr><th>이름</th><th>포지션</th><th>입사일</th><th>채용 TO 구분</th></tr></thead><tbody>`+list.map(j=>`<tr><td class="nm">${j.n}</td><td>${j.p}</td><td>${j.d}</td><td>${badge(j.k,j.ref)}</td></tr>`).join("")+`</tbody></table>`;}
+function joinTable(list){return `<table class="ptbl"><thead><tr><th>이름</th><th>포지션</th><th>입사일</th><th>채용 TO 구분</th></tr></thead><tbody>`+list.map(j=>`<tr><td class="nm">${j.n}</td><td>${j.p}</td><td>${j.d}</td><td>${badge(j.k,j.ref,j.btag)}</td></tr>`).join("")+`</tbody></table>`;}
 function bodyFor(kind,d){
   if(kind==="join")return joinTable(d.joinDet);
   if(kind==="sched")return joinTable(d.schedDet);
   if(kind==="total")return `<div class="pop-comp"><div class="cc"><span>사업계획 TO</span><b>${d.to_plan}명</b></div><div class="cc"><span>추가요청 TO</span><b>${d.to_add}명</b></div><div class="cc"><span>총 TO</span><b>${d.to_total}명</b></div><div class="cc"><span>입사 / 입사예정</span><b>${d.joined} / ${d.scheduled}명</b></div><div class="cc"><span>잔여 TO</span><b style="color:var(--coral)">${d.remain}명</b></div></div>`+(d.posOpen.length?`<div class="pop-sub">잔여 포지션 (클릭 시 JD)</div><ul class="pop-pos">${d.posOpen.map((p,i)=>posLineHTML(p,i,DATA.indexOf(d))).join("")}</ul>`:`<div class="pop-memo">채용 완료 (잔여 없음)</div>`);
-  return (d.posOpen.length?`<ul class="pop-pos">${d.posOpen.map((p,i)=>posLineHTML(p,i,DATA.indexOf(d))).join("")}</ul>`:`<div class="pop-memo">잔여 없음</div>`)+(d.memo?`<div class="pop-memo">📝 ${d.memo}</div>`:"");
+  return (d.posOpen.length?`<ul class="pop-pos">${d.posOpen.map((p,i)=>posLineHTML(p,i,DATA.indexOf(d))).join("")}</ul>`:`<div class="pop-memo">잔여 없음</div>`)+(d.memo?`<div class="pop-memo">📝 ${mmo(d.memo)}</div>`:"");
 }
 function showList(kind){
   const ts=DATA.filter(d=>kind==="join"?d.joinDet.length:kind==="sched"?d.schedDet.length:kind==="total"?d.to_total>0:d.remain>0);
@@ -806,7 +808,7 @@ function showLeaveDetail(idx,back){
   const bb=pop.querySelector(".backbtn");if(bb&&back)bb.onclick=back;
 }
 function showLeave(){openWith(popHead("휴직(예정)자",LEAVE.length)+`<div class="pop-hint">이름을 클릭하면 개인별 상세가 표시됩니다.</div><div style="padding:12px 17px 17px">`+leaveGroupHTML()+`</div>`);bindLeaveChips(pop,showLeave);}
-function showMemo(idx){const d=DATA[idx];openWith(popHead(d.team+" · 메모")+`<div class="pop-memo" style="margin-top:14px">📝 ${d.memo}</div>`);}
+function showMemo(idx){const d=DATA[idx];openWith(popHead(d.team+" · 메모")+`<div class="pop-memo" style="margin-top:14px">📝 ${mmo(d.memo)}</div>`);}
 function showAdd(idx){const d=DATA[idx];openWith(popHead(d.team+" · 신규·대체채용 TO",d.to_add)+`<div class="pop-memo" style="margin-top:14px">➕ ${d.addReason||"신규·대체채용 TO"}</div>`);}
 function showInt(idx){const d=DATA[idx];openWith(popHead(d.team+" · 내부인력 충원",d.to_int)+`<div class="pop-memo" style="margin-top:14px">🔁 ${d.intReason||"내부인력 충원으로 TO 차감"}</div>`);}
 function showPos(teamIdx,posIdx,back){
@@ -827,7 +829,7 @@ function showTeam(idx){
   if(d.posOpen.length)h+=`<div class="pop-sub">🎯 잔여 포지션 (클릭 시 JD)</div><ul class="pop-pos">${d.posOpen.map((p,i)=>posLineHTML(p,i,idx)).join("")}</ul>`;else h+=`<div class="pop-memo">잔여 TO 없음 (채용 완료)</div>`;
   const mv=MOVE.filter(m=>m.fromT.indexOf(d.team)===0||m.toT.indexOf(d.team)===0),rs=RESIGN.filter(r=>r.team===d.team),lv=LEAVE.filter(l=>l.team===d.team);
   if(mv.length||rs.length||lv.length){h+=`<div class="pop-sub">🔄 인력 변동</div><table class="ptbl"><tbody>`;mv.forEach(m=>h+=`<tr><td class="nm">${m.n}</td><td>${m.type}</td><td>${m.fromT} → ${m.toT}${m.d?" "+m.d:""}</td></tr>`);rs.forEach(r=>h+=`<tr><td class="nm">${r.n}</td><td>퇴사</td><td>${r.p} · ${r.d}</td></tr>`);lv.forEach(l=>h+=`<tr><td class="nm">${l.n}</td><td>${leaveKind(l)}${l.tag?" ("+l.tag+")":""}</td><td>${l.due?"출산예정 "+l.due:(l.ret?"복직예정 "+l.ret:"–")}</td></tr>`);h+=`</tbody></table>`;}
-  if(d.memo)h+=`<div class="pop-memo">📝 ${d.memo}</div>`;
+  if(d.memo)h+=`<div class="pop-memo">📝 ${mmo(d.memo)}</div>`;
   openWith(h);bindPosLines(pop,()=>showTeam(idx));
 }
 function dispatchPop(kind){if(kind==="join"||kind==="sched"||kind==="remain"||kind==="total")showList(kind);else if(kind==="resign")showResign();else if(kind==="move")showMove();else if(kind==="leave")showLeave();}
@@ -905,7 +907,7 @@ document.querySelectorAll("#tbl thead th[data-k]").forEach(th=>th.onclick=()=>{c
 ["search","compFilter","remFilter"].forEach(id=>document.getElementById(id).oninput=render);
 render();
 
-document.getElementById("posGrid").innerHTML=DATA.filter(d=>d.remain>0).map(d=>{const idx=DATA.indexOf(d);const posHtml=d.posOpen.map((p,i)=>posLineHTML(p,i,idx)).join("");const memoHtml=d.memo?`<div class="memo">📝 ${d.memo}</div>`:"";return `<div class="pos-card"><div class="ph"><span class="team">${d.team}</span><span class="cnt">잔여 ${d.remain}</span></div><div style="font-size:12.5px;color:var(--muted);font-weight:600;margin:-4px 0 6px">📢 공고 : ${d.notice||"–"}</div><ul class="pos-list">${posHtml}</ul>${memoHtml}</div>`;}).join("");
+document.getElementById("posGrid").innerHTML=DATA.filter(d=>d.remain>0).map(d=>{const idx=DATA.indexOf(d);const posHtml=d.posOpen.map((p,i)=>posLineHTML(p,i,idx)).join("");const memoHtml=d.memo?`<div class="memo">📝 ${mmo(d.memo)}</div>`:"";return `<div class="pos-card"><div class="ph"><span class="team">${d.team}</span><span class="cnt">잔여 ${d.remain}</span></div><div style="font-size:12.5px;color:var(--muted);font-weight:600;margin:-4px 0 6px">📢 공고 : ${d.notice||"–"}</div><ul class="pos-list">${posHtml}</ul>${memoHtml}</div>`;}).join("");
 bindPosLines(document.getElementById("posGrid"),null);
 
 document.getElementById("joinList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>팀</th><th>포지션</th><th>입사(예정)일</th></tr></thead><tbody>`+JOIN_FLAT.map(j=>`<tr><td><span class="tob base">입사</span></td><td class="nm">${j.n}</td><td>${j.team}</td><td>${j.p}</td><td>${j.d}</td></tr>`).join("")+SCHED_FLAT.map(j=>`<tr><td><span class="tob new">예정</span></td><td class="nm">${j.n}</td><td>${j.team}</td><td>${j.p}</td><td>${j.d}</td></tr>`).join("")+`</tbody></table>`;
