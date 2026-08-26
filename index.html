@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GMDSOFT 2026 팀별 채용 현황 대시보드 (2026.07.16 기준)</title>
+<title>GMDSOFT 2026 팀별 채용 현황 대시보드 (2026.08.24 기준)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root{
@@ -229,7 +229,7 @@
   .card h3{font-size:18px}
   .rank li{font-size:15.5px} .rank .rc{font-size:14px}
   .toolbar input,.toolbar select{font-size:15px}
-  table.main{font-size:15px;min-width:900px} table.main thead th{font-size:14px} table.main tbody td{padding:12px 9px}
+  table.main{font-size:15px;min-width:1080px} table.main thead th{font-size:14px} table.main tbody td{padding:12px 9px}
   .team-link{font-size:16px} .pill{font-size:14px;min-width:26px} .memo-tag{font-size:12.5px} .jd-btn{font-size:14px} .num-link{font-size:16px}
   .tob{font-size:12.5px} .posv{font-size:12.5px}
   .pos-card .team{font-size:17px} .pos-li{font-size:15.5px} .pos-li .pt2{font-size:15.5px} .when{font-size:12.5px} .memo{font-size:14px}
@@ -244,6 +244,27 @@
   .ptbl{font-size:14.5px} .ptbl th{font-size:13px}
   .jd-t{font-size:17.5px} .jd-meta{font-size:13px} .jd-sec .lbl{font-size:14px} .jd-sec ul{font-size:14.5px} .jd-sec li{font-size:14.5px}
   .tr-click{cursor:pointer}
+
+  /* === 성비 배지 (!) === */
+  .gx{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;
+      background:linear-gradient(135deg,#f0a63c,#e5804a);color:#fff;font-size:13px;font-weight:900;line-height:1;
+      cursor:pointer;flex-shrink:0;box-shadow:0 1px 4px rgba(180,110,40,.35);transition:.15s}
+  .gx:hover{transform:scale(1.15) rotate(-6deg);box-shadow:0 3px 10px rgba(180,110,40,.5)}
+  #tip .gxwrap{display:flex;flex-direction:column;gap:11px}
+  #tip .gxrow{display:block}
+  #tip .gxl{font-weight:700;font-size:12.5px;color:#fff}
+  #tip .gxn{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;margin-top:3px}
+  .gxbar{display:flex;height:11px;border-radius:6px;overflow:hidden;margin-top:5px;background:rgba(255,255,255,.15)}
+  .gxbar i{display:block;height:100%}
+  .pop-gx .gxbar{height:14px;border-radius:7px;background:var(--surface2)}
+  .pop-gx{padding:4px 17px 0}
+  .pop-gx .gxrow{background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:9px}
+  .pop-gx .gxl{font-weight:800;font-size:14px}
+  .pop-gx .gxn{display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-top:5px}
+  .g-m{color:#4f9ae0} .g-f{color:#e56a89}
+  .pend-card{border-left:4px solid #d98b3a}
+  .pend-n{margin-left:auto;background:var(--amber-bg);color:var(--amber);border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:800}
+  .pend-card h3{display:flex;align-items:center;gap:8px}
 </style>
 </head>
 <body>
@@ -254,7 +275,7 @@
   <div class="htxt">
     <div class="eyebrow">Talent Acquisition</div>
     <h1>2026년 팀별 채용계획 &amp; 현황 대시보드</h1>
-    <div class="sub"><span class="badge">📅 2026.07.16 기준</span><span class="badge">GMDSOFT · 더스팟 · GMDSOFT India</span><span>2026.02.01 조직개편/부서이동 기초인원 선반영</span></div>
+    <div class="sub"><span class="badge">📅 2026.08.24 기준</span><span class="badge">GMDSOFT · 더스팟 · GMDSOFT India</span><span>2026.02.01 조직개편/부서이동 기초인원 선반영</span></div>
   </div>
   <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크모드 전환">
     <span class="tt-ico" id="ttIcoLight">☀️</span>
@@ -272,16 +293,17 @@
   </div>
 
   <section class="panel" id="exec">
-    <div class="section-title">경영진 요약 (2026.07.16 기준)</div>
-    <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
-      <div class="kpi k-mv"><div class="label">총 채용 TO</div><div class="num">31<small>명</small></div></div>
-      <div class="kpi k-in"><div class="label">확보 (입사·예정·전환)</div><div class="num" id="xFilled">–</div></div>
-      <div class="kpi k-res"><div class="label">잔여 TO</div><div class="num">21<small>명</small></div></div>
-      <div class="kpi k-sch"><div class="label">하반기 이탈 예정</div><div class="num">2<small>명</small></div></div>
+    <div class="section-title">경영진 요약 (2026.08.24 기준)</div>
+    <div class="kpis" style="grid-template-columns:repeat(5,1fr)">
+      <div class="kpi k-mv"><div class="label">총 채용 TO</div><div class="num" id="xTo">–</div></div>
+      <div class="kpi k-in"><div class="label">확보 (입사·입사예정)</div><div class="num" id="xFilled">–</div></div>
+      <div class="kpi k-res"><div class="label">잔여 TO</div><div class="num" id="xRem">–</div></div>
+      <div class="kpi k-lv"><div class="label">내부인력 충원</div><div class="num" id="xInt">–</div></div>
+      <div class="kpi k-sch"><div class="label">하반기 이탈 예정</div><div class="num" id="xOut">–</div></div>
     </div>
     <div class="grid2">
-      <div class="card"><h3>전사 채용 진척률</h3><div class="xgauge"><div class="fill" id="xFill"></div></div><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span id="xFilledLbl">확보</span><span>목표 31명</span></div></div>
-      <div class="card"><h3>채용 사유 구성 (잔여 21명)</h3><div class="chart-box" style="height:230px"><canvas id="reasonDonut"></canvas></div></div>
+      <div class="card"><h3>전사 채용 진척률</h3><div class="xgauge"><div class="fill" id="xFill"></div></div><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)"><span id="xFilledLbl">확보</span><span id="xGoalLbl">목표</span></div></div>
+      <div class="card"><h3>채용 사유 구성 <span id="xReasonN" style="font-weight:600;color:var(--muted);font-size:13px"></span></h3><div class="chart-box" style="height:230px"><canvas id="reasonDonut"></canvas></div></div>
     </div>
     <div class="card"><h3>팀별 채용 현황 <span style="font-weight:600;color:var(--muted);font-size:12px">· 팀명 클릭 시 상세</span></h3><div style="overflow-x:auto"><table class="xtbl" id="xtbl"></table></div></div>
   </section>
@@ -289,7 +311,7 @@
   <section class="panel active" id="overview">
     <div class="hint">💡 카드에 마우스를 올리면 미리보기, <b>클릭하면 팝업이 고정</b>되어 팀별·포지션별로 자세히 볼 수 있습니다.</div>
     <div class="kpis c5">
-      <div class="kpi k-in clickable" data-tip="join"><div class="label">입사자</div><div class="num" data-count="join">–</div></div>
+      <div class="kpi k-in clickable" data-tip="join"><div class="label">입사자 <span class="gx" data-gx="1" title="입사자 성비 보기">!</span></div><div class="num" data-count="join">–</div></div>
       <div class="kpi k-sch clickable" data-tip="sched"><div class="label">입사예정</div><div class="num" data-count="sched">–</div></div>
       <div class="kpi k-res clickable" data-tip="resign"><div class="label">퇴사(예정)자</div><div class="num" data-count="resign">–</div></div>
       <div class="kpi k-mv clickable" data-tip="move"><div class="label">부서·파트이동자</div><div class="num" data-count="move">–</div></div>
@@ -298,17 +320,17 @@
     <div class="hero">
       <div class="hero-top">📈 채용 진척 요약</div>
       <div class="hero-flow">
-        <div class="hf"><div class="hf-lbl">현재 총원 (7.16)</div><div class="hf-num">124<small>명</small></div></div>
+        <div class="hf"><div class="hf-lbl">현재 총원 (8.24)</div><div class="hf-num" id="hf-cur">–</div></div>
         <div class="hf-mid">＋ 채용 <b id="hf-hire">9</b>명 · 잔여 <span class="rr" id="hf-rem">21</span>명<div class="arw">→</div></div>
-        <div class="hf"><div class="hf-lbl">채용완료 시 총원</div><div class="hf-num accent">144<small>명</small></div></div>
+        <div class="hf"><div class="hf-lbl">채용완료 시 총원</div><div class="hf-num accent" id="hf-fin">–</div></div>
       </div>
       <div class="hero-bar" id="heroBar"></div>
-      <div class="hero-scale"><span>총 TO 31명 기준</span><span id="heroPct"></span></div>
+      <div class="hero-scale"><span id="heroScale">총 TO 기준</span><span id="heroPct"></span></div>
       <div class="hero-chips">
-        <span class="chip clickable" data-tip="total"><span class="cd" style="background:var(--blue)"></span>총 TO <b>31</b></span>
-        <span class="chip clickable" data-tip="join"><span class="cd" style="background:var(--green)"></span>입사 <b>8</b></span>
-        <span class="chip clickable" data-tip="sched"><span class="cd" style="background:var(--amber)"></span>입사예정 <b>1</b></span>
-        <span class="chip clickable" data-tip="remain"><span class="cd" style="background:var(--coral)"></span>잔여 TO <b>21</b></span>
+        <span class="chip clickable" data-tip="total"><span class="cd" style="background:var(--blue)"></span>총 TO <b id="chTo">–</b></span>
+        <span class="chip clickable" data-tip="join"><span class="cd" style="background:var(--green)"></span>입사 <b id="chIn">–</b></span>
+        <span class="chip clickable" data-tip="sched"><span class="cd" style="background:var(--amber)"></span>입사예정 <b id="chSch">–</b></span>
+        <span class="chip clickable" data-tip="remain"><span class="cd" style="background:var(--coral)"></span>잔여 TO <b id="chRem">–</b></span>
       </div>
     </div>
     <div class="grid2">
@@ -320,7 +342,7 @@
 
   <section class="panel" id="teams">
     <div class="section-title">팀별 상세 현황</div>
-    <div class="hint">💡 <b>행 아무 곳이나 클릭</b> → 팀 종합 팝업 · 총 TO / 입사 / 예정 / 잔여 TO / <b>JD</b> 셀은 개별 상세 · 추가요청 TO는 마우스오버로 사유 확인</div>
+    <div class="hint">💡 <b>행 아무 곳이나 클릭</b> → 팀 종합 팝업 · 총 TO / 입사 / 예정 / 잔여 TO / <b>JD</b> 셀은 개별 상세 · 내부인력충원 · 대체채용 TO는 마우스오버로 사유 확인</div>
     <div class="toolbar">
       <input type="text" id="search" placeholder="🔍 팀 검색..." />
       <select id="compFilter"><option value="">전체 회사</option><option value="GMDSOFT">GMDSOFT</option><option value="더스팟">더스팟</option><option value="GMDSOFT India">GMDSOFT India</option></select>
@@ -330,9 +352,11 @@
       <thead><tr>
         <th data-k="team">팀 <span class="arw">↕</span></th>
         <th data-k="base">'26.01<br>기초 <span class="arw">↕</span></th>
-        <th data-k="current">현재<br>(7.16) <span class="arw">↕</span></th>
+        <th data-k="current">현재<br>(8.24) <span class="arw">↕</span></th>
         <th data-k="to_plan">사업계획<br>TO <span class="arw">↕</span></th>
-        <th data-k="to_add">추가요청<br>TO <span class="arw">↕</span></th>
+        <th data-k="to_int">내부인력<br>충원 <span class="arw">↕</span></th>
+        <th data-k="to_new">신규채용<br>TO <span class="arw">↕</span></th>
+        <th data-k="to_rep">대체채용<br>TO <span class="arw">↕</span></th>
         <th data-k="to_total">총 TO <span class="arw">↕</span></th>
         <th data-k="joined">입사 <span class="arw">↕</span></th>
         <th data-k="scheduled">예정 <span class="arw">↕</span></th>
@@ -346,7 +370,7 @@
   </section>
 
   <section class="panel" id="positions">
-    <div class="section-title">잔여 TO 포지션 (총 21명)</div>
+    <div class="section-title">잔여 TO 포지션 <span id="posTitleN" style="font-weight:700"></span></div>
     <p class="section-note">엑셀 팀 순서대로 정렬 · 포지션 <b>클릭 시 상세 팝업</b>(사유·채용시기·JD). <span class="tob base">기존 TO</span> 사업계획 · <span class="tob rep">대체</span> 결원대체 · <span class="tob new">신규</span> 증원</p>
     <div class="pos-grid" id="posGrid"></div>
   </section>
@@ -355,30 +379,37 @@
     <div class="section-title">인력 변동 흐름 (2026년 누적)</div>
     <div class="hint">💡 카드 클릭 시 팝업이 고정됩니다.</div>
     <div class="kpis c5">
-      <div class="kpi k-in clickable" data-tip="join"><div class="label">입사자</div><div class="num" data-count="join">–</div></div>
+      <div class="kpi k-in clickable" data-tip="join"><div class="label">입사자 <span class="gx" data-gx="1" title="입사자 성비 보기">!</span></div><div class="num" data-count="join">–</div></div>
       <div class="kpi k-sch clickable" data-tip="sched"><div class="label">입사예정</div><div class="num" data-count="sched">–</div></div>
       <div class="kpi k-res clickable" data-tip="resign"><div class="label">퇴사(예정)자</div><div class="num" data-count="resign">–</div></div>
       <div class="kpi k-mv clickable" data-tip="move"><div class="label">부서·파트이동자</div><div class="num" data-count="move">–</div></div>
       <div class="kpi k-lv clickable" data-tip="leave"><div class="label">휴직(예정)자</div><div class="num" data-count="leave">–</div></div>
     </div>
     <div class="mv-grid">
-      <div class="card mv-card"><h3><span class="dot" style="background:var(--green)"></span>입사 · 입사예정</h3><div id="joinList"></div></div>
+      <div class="card mv-card"><h3><span class="dot" style="background:var(--green)"></span>입사 · 입사예정 <span class="gx" data-gx="1" title="입사자 성비 보기">!</span></h3><div id="joinList"></div></div>
       <div class="card mv-card"><h3><span class="dot" style="background:var(--coral)"></span>퇴사 · 퇴사예정</h3><div id="resList"></div></div>
       <div class="card mv-card"><h3><span class="dot" style="background:var(--blue)"></span>부서 · 파트 이동</h3><div id="movList"></div></div>
       <div class="card mv-card"><h3><span class="dot" style="background:var(--lav)"></span>휴직(예정)자</h3><p class="section-note" style="margin:-2px 0 4px">이름을 클릭하면 개인별 상세(휴직기간·복직예정일·출산예정일)를 볼 수 있습니다.</p><div id="lvList"></div></div>
+      <div class="card mv-card pend-card"><h3><span class="dot" style="background:#d98b3a"></span>대체채용 요청서 상신 전 TO <span class="pend-n" id="pendN"></span></h3><p class="section-note" style="margin:-2px 0 6px">결원은 발생했으나 <b>대체채용 요청서 미상신</b> 건 · <b>총 TO(28) 미반영</b>이며 승인 시 잔여 TO가 늘어납니다.</p><div id="pendList"></div></div>
     </div>
     <div class="card"><h3>채용 경로별 입사 실적 (2026년 입사자)</h3><div class="chart-box" style="height:260px"><canvas id="barChannel"></canvas></div>
-      <p class="section-note" style="margin-top:12px">잡코리아 3 · 사람인 3 · 드림핵CTF 1 · 사내추천/기타 1 (서칭이력서 1)</p></div>
+      <p class="section-note" style="margin-top:12px">잡코리아 3 · 사람인 2 · 드림핵CTF 1 · 사내추천/기타 3 (서칭이력서 2 · 사내추천 1) &nbsp;=&nbsp; GMDSOFT 2026년 입사자 9명 기준 (오영근 3/25 퇴사 제외) · 이경은 9/1 입사예정(사람인) 별도</p></div>
   </section>
 
   <footer>
-    <b>데이터 출처</b> : GMDSOFT 2026년도 팀별 채용계획 상세내용 JD_취합본 · 「26년 채용계획 및 현황_260716」 + 「2026 통합채용 JD」 시트 (2026.07.16 기준)<br>
-    현재 총원 124명 · 총 TO 31 · 입사 8 · 입사예정 1 · 잔여 TO 21 · 채용완료 시 총원 144명 · <span style="color:#c8863a">JD "임시 초안" 표기 항목은 확인·수정 필요</span><br>
+    <b>데이터 출처</b> : GMDSOFT 2026년도 팀별 채용계획 상세내용 JD_취합본 · 「★26년 채용계획 및 현황_260824_TO구분」 + 「2026 채용JD_260820」 시트 (2026.08.24 기준) · 입사자 성비는 「정보」 파일 기준<br>
+    <span id="footStat">–</span> · <span style="color:#c8863a">JD "임시 초안" 표기 항목은 확인·수정 필요</span><br>
     ※ 본 대시보드에는 임직원 실명이 포함되어 있습니다. 외부 공개 시 개인정보 처리에 유의하세요.
   </footer>
 </div>
 
 <script>
+/* Chart.js CDN 미로딩(오프라인/차단) 시에도 대시보드 나머지 기능이 동작하도록 안전장치 */
+if(typeof Chart==="undefined"){
+  window.Chart=function(){return {config:{type:""},data:{datasets:[{}]},options:{scales:{},plugins:{}},update:function(){}};};
+  Chart.defaults={};
+  document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".chart-box").forEach(b=>{b.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;font-weight:600">그래프 표시를 위해 인터넷 연결이 필요합니다 (Chart.js CDN)</div>';});});
+}
 /* ===== 다크모드 ===== */
 (function(){
   const root=document.documentElement;
@@ -428,39 +459,71 @@ document.addEventListener("DOMContentLoaded",()=>{
 });
 
 const DATA=[
- {company:"GMDSOFT",team:"개발1팀",base:8,current:9,to_plan:1,to_add:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:11,
-  posOpen:[{t:"웹 프론트엔드 개발",n:1,k:"base",ref:"",when:"2월"},{t:"웹 개발",n:1,k:"rep",ref:"정재봉_6/1_파트이동",when:""}],joinDet:[],schedDet:[],memo:"",addReason:"정재봉 6/1 파트이동(개발1팀 플랫폼파트→인프라파트)으로 인한 대체채용 TO"},
- {company:"GMDSOFT",team:"개발2팀",base:14,current:15,to_plan:3,to_add:0,to_total:3,joined:1,scheduled:0,remain:2,total_after:17,
-  posOpen:[{t:"제품개발",n:1,k:"base",ref:"",when:"9월"},{t:"분석 엔지니어",n:1,k:"base",ref:"",when:"9월"}],joinDet:[{n:"권형근",p:"제품개발",d:"2/2",k:"base",ref:""}],schedDet:[],memo:"",addReason:""},
- {company:"GMDSOFT",team:"개발3팀",base:7,current:7,to_plan:1,to_add:0,to_total:1,joined:0,scheduled:0,remain:1,total_after:8,
-  posOpen:[{t:"응용프로그램 개발 담당",n:1,k:"base",ref:"",when:"2월"}],joinDet:[],schedDet:[],memo:"",addReason:""},
- {company:"GMDSOFT",team:"개발4팀",base:12,current:14,to_plan:4,to_add:1,to_total:5,joined:2,scheduled:0,remain:3,total_after:17,
+ {company:"GMDSOFT",team:"개발1팀",base:8,current:10,to_plan:1,to_int:-1,to_new:0,to_rep:1,to_total:1,joined:0,scheduled:0,remain:1,total_after:11,notice:"X",
+  posOpen:[{t:"웹 프론트엔드 개발",n:1,k:"base",ref:"",when:"2월"}],joinDet:[],schedDet:[],
+  memo:"내부 전입 : 김정국(6/1 부서이동) · 심재혁(8/10 부서이동)",
+  intReason:"심재혁 8/10 부서이동(개발3팀 응용프로그램개발 → 개발1팀 플랫폼파트 웹개발)으로 웹개발 TO 내부충원 (△1)",
+  addReason:"정재봉 6/1 파트이동(개발1팀 플랫폼파트→인프라파트)으로 인한 대체채용 TO 1"},
+ {company:"GMDSOFT",team:"개발2팀",base:14,current:14,to_plan:3,to_int:0,to_new:0,to_rep:0,to_total:3,joined:1,scheduled:0,remain:2,total_after:16,notice:"O",
+  posOpen:[{t:"PM",n:2,k:"base",ref:"채용포지션 변경(8/5) : 응용프로그램개발·분석엔지니어 → PM",when:"9월"}],
+  joinDet:[{n:"권형근",p:"제품개발",d:"2/2",k:"base",ref:""}],schedDet:[],
+  memo:"이강희 8/10 부서이동(→개발3팀) 대체채용 요청서 상신 전 · 잔여 TO 2 → PM 2로 포지션 변경(8/5)",addReason:""},
+ {company:"GMDSOFT",team:"개발3팀",base:7,current:7,to_plan:1,to_int:-1,to_new:0,to_rep:0,to_total:0,joined:0,scheduled:0,remain:0,total_after:7,notice:"–",
+  posOpen:[],joinDet:[],schedDet:[],
+  memo:"내부 전입 : 이강희(8/10 부서이동) → 비디오포렌식 엔진개발 TO 충원 · 심재혁 부서이동 대체채용 요청서 상신 전",
+  intReason:"이강희 8/10 부서이동(개발2팀 → 개발3팀 응용프로그램개발)으로 비디오포렌식 엔진개발 TO 내부충원 (△1)",addReason:""},
+ {company:"GMDSOFT",team:"개발4팀",base:12,current:14,to_plan:4,to_int:0,to_new:0,to_rep:1,to_total:5,joined:2,scheduled:0,remain:3,total_after:17,notice:"O (보안기술연구)",
   posOpen:[{t:"보안기술연구",n:2,k:"base",ref:"",when:"5·9월"},{t:"응용프로그램 개발",n:1,k:"rep",ref:"홍성은_육아휴직예정",when:""}],
-  joinDet:[{n:"오상원",p:"보안기술연구",d:"3/16",k:"base",ref:""},{n:"윤지완",p:"응용프로그램 개발",d:"6/1",k:"rep",ref:"박준수_2/1_부서이동"}],schedDet:[],memo:"",addReason:"홍성은 육아휴직예정으로 인한 대체채용 TO"},
- {company:"GMDSOFT",team:"AI팀",base:10,current:9,to_plan:2,to_add:0,to_total:2,joined:0,scheduled:0,remain:2,total_after:11,
-  posOpen:[{t:"AI 엔지니어",n:2,k:"base",ref:"",when:"6월"}],joinDet:[],schedDet:[],memo:"",addReason:""},
- {company:"GMDSOFT",team:"FRONT팀",base:8,current:7,to_plan:0,to_add:1,to_total:1,joined:0,scheduled:0,remain:1,total_after:7,
-  posOpen:[{t:"국내 기술지원",n:1,k:"rep",ref:"금상현_5/26_퇴사",when:""}],joinDet:[],schedDet:[],memo:"",addReason:"금상현 5/26 퇴사로 인한 대체채용 TO"},
- {company:"GMDSOFT",team:"분석팀",base:3,current:3,to_plan:1,to_add:1,to_total:2,joined:1,scheduled:0,remain:1,total_after:4,
-  posOpen:[{t:"아티팩트연구",n:1,k:"base",ref:"",when:""}],joinDet:[{n:"김정민",p:"아티팩트연구",d:"2/23",k:"rep",ref:"이혜빈"}],schedDet:[],memo:"",addReason:"이혜빈 대체채용 TO (김정민 2/23 입사 충원)"},
- {company:"GMDSOFT",team:"QA팀",base:5,current:4,to_plan:1,to_add:0,to_total:1,joined:0,scheduled:0,remain:1,total_after:5,
-  posOpen:[{t:"QA",n:1,k:"rep",ref:"강승희_퇴사",when:"2월"}],joinDet:[],schedDet:[],memo:"",addReason:""},
- {company:"GMDSOFT",team:"국내사업팀",base:15,current:14,to_plan:1,to_add:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:16,
-  posOpen:[{t:"상품기술지원",n:1,k:"rep",ref:"신영수_7/16_퇴사",when:"10월"},{t:"현장지원 및 기술영업",n:1,k:"rep",ref:"김성환_8월말_퇴사예정",when:"8월"}],joinDet:[],schedDet:[],memo:"",addReason:"김성환 8월말 퇴사예정(7월말 마지막근무)으로 인한 대체채용 TO"},
- {company:"GMDSOFT",team:"글로벌사업팀",base:15,current:14,to_plan:1,to_add:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:16,
-  posOpen:[{t:"해외영업지원",n:1,k:"base",ref:"",when:"2월"},{t:"해외영업",n:1,k:"rep",ref:"신영수_2/1_부서이동",when:""}],joinDet:[],schedDet:[],memo:"기초인원 전경복 전무님 포함",addReason:"신영수 2/1 부서이동(글로벌→국내)으로 인한 대체채용 TO"},
- {company:"GMDSOFT",team:"마케팅기획팀",base:2,current:3,to_plan:2,to_add:0,to_total:2,joined:0,scheduled:1,remain:0,total_after:4,
-  posOpen:[],joinDet:[],schedDet:[{n:"김다정",p:"국내마케팅",d:"7/20",k:"rep",ref:"오영근_3/25_퇴사"}],memo:"",addReason:""},
- {company:"GMDSOFT",team:"제품기획팀",base:8,current:8,to_plan:0,to_add:2,to_total:2,joined:1,scheduled:0,remain:1,total_after:9,
-  posOpen:[{t:"PO (Product Owner)",n:1,k:"new",ref:"",when:""}],joinDet:[{n:"류채영",p:"PD (Product Designer)",d:"6/15",k:"rep",ref:"김은비_3/23_부서이동"}],schedDet:[],memo:"기초인원 석진우 이사님 포함",addReason:"PO 신규 증원 1 + PD 김은비 3/23 부서이동 대체 1"},
- {company:"GMDSOFT",team:"경영기획팀",base:6,current:6,to_plan:0,to_add:2,to_total:2,joined:1,scheduled:0,remain:1,total_after:6,
-  posOpen:[{t:"재무회계",n:1,k:"rep",ref:"이규열_하반기_퇴사예정",when:""}],joinDet:[{n:"서우람",p:"재무회계",d:"3/9",k:"rep",ref:"이영서_3/31_퇴사"}],schedDet:[],memo:"",addReason:"이영서 3/31 퇴사 대체 1 + 이규열 하반기 퇴사예정 대체 1"},
- {company:"GMDSOFT",team:"경영진(CEO,CTO)",base:2,current:2,to_plan:0,to_add:0,to_total:0,joined:0,scheduled:0,remain:0,total_after:2,posOpen:[],joinDet:[],schedDet:[],memo:"",addReason:""},
- {company:"더스팟",team:"더스팟",base:6,current:7,to_plan:1,to_add:0,to_total:1,joined:1,scheduled:0,remain:0,total_after:7,
+  joinDet:[{n:"오상원",p:"보안기술연구",d:"3/16",k:"base",ref:""},{n:"윤지완",p:"응용프로그램 개발",d:"6/1",k:"rep",ref:"박준수_2/1_부서이동"}],schedDet:[],
+  memo:"조재용 파견근무 진행 중 (8/3~10/3 · 응용프로그램개발)",
+  addReason:"홍성은 육아휴직예정으로 인한 대체채용 TO 1"},
+ {company:"GMDSOFT",team:"AI팀",base:10,current:9,to_plan:2,to_int:0,to_new:0,to_rep:0,to_total:2,joined:0,scheduled:0,remain:2,total_after:11,notice:"X",
+  posOpen:[{t:"AI 엔지니어",n:2,k:"base",ref:"",when:"6월"}],joinDet:[],schedDet:[],
+  memo:"최윤서 10/1 출산휴가 예정 (육아휴직 12개월 연계)",addReason:""},
+ {company:"GMDSOFT",team:"FRONT팀",base:8,current:5,to_plan:0,to_int:0,to_new:0,to_rep:1,to_total:1,joined:0,scheduled:0,remain:1,total_after:6,notice:"X",
+  posOpen:[{t:"국내 기술지원",n:1,k:"rep",ref:"금상현_5/26_퇴사",when:""}],joinDet:[],schedDet:[],
+  memo:"서울시 인턴 3개월 평가 후 전환여부 결정 · 김보연 8/1 부서이동(→국내사업팀 현장지원) · 김성환 8/31 퇴사예정(현장지원 대체TO는 국내사업팀에 반영)",
+  addReason:"금상현 5/26 퇴사로 인한 대체채용 TO 1"},
+ {company:"GMDSOFT",team:"분석팀",base:3,current:3,to_plan:1,to_int:0,to_new:0,to_rep:1,to_total:2,joined:1,scheduled:0,remain:1,total_after:4,notice:"O",
+  posOpen:[{t:"아티팩트연구",n:1,k:"base",ref:"",when:""}],
+  joinDet:[{n:"김정민",p:"아티팩트연구",d:"2/23",k:"rep",ref:"이혜빈"}],schedDet:[],memo:"김대기 6/1 퇴사",
+  addReason:"이혜빈 대체채용 TO 1 (김정민 2/23 입사 충원)"},
+ {company:"GMDSOFT",team:"QA팀",base:5,current:4,to_plan:1,to_int:0,to_new:0,to_rep:0,to_total:1,joined:0,scheduled:1,remain:0,total_after:5,notice:"마감",
+  posOpen:[],joinDet:[],schedDet:[{n:"이경은",p:"QA",d:"9/1",k:"rep",ref:"정예진_퇴사"}],
+  memo:"정예진 퇴사 대체로 이경은 9/1 입사예정 · 강승희 2/4 퇴사 대체채용 요청서 상신 전",addReason:""},
+ {company:"GMDSOFT",team:"국내사업팀",base:14,current:14,to_plan:1,to_int:0,to_new:0,to_rep:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:16,notice:"O (현장지원)",
+  posOpen:[{t:"상품기술지원",n:1,k:"rep",ref:"신영수_7/16_퇴사",when:"10월"},{t:"현장지원 및 기술영업",n:1,k:"rep",ref:"김성환_8/31_퇴사예정",when:"8월"}],
+  joinDet:[],schedDet:[],
+  memo:"박상준 8/3 퇴사 → 대체채용 요청서 상신 전 · 김보연 8/1 부서이동 전입(FRONT팀 현장지원 → 국내사업팀 현장지원)",
+  addReason:"김성환 8/31 퇴사예정 (현장지원 직무 국내사업팀 이관)으로 인한 대체채용 TO 1"},
+ {company:"GMDSOFT",team:"글로벌사업팀",base:16,current:14,to_plan:1,to_int:0,to_new:0,to_rep:1,to_total:2,joined:0,scheduled:0,remain:2,total_after:16,notice:"O (2개 포지션 동시 진행)",
+  posOpen:[{t:"해외영업지원",n:1,k:"base",ref:"",when:"2월"},{t:"해외영업",n:1,k:"rep",ref:"신영수_2/1_부서이동",when:""}],
+  joinDet:[],schedDet:[],memo:"기초인원 전경복 전무님 포함 · 신남정·이효준 휴직중",
+  addReason:"신영수 2/1 부서이동(글로벌→국내)으로 인한 대체채용 TO 1"},
+ {company:"GMDSOFT",team:"마케팅기획팀",base:2,current:4,to_plan:2,to_int:-1,to_new:0,to_rep:0,to_total:1,joined:1,scheduled:0,remain:0,total_after:4,notice:"마감",
+  posOpen:[],joinDet:[{n:"김다정",p:"국내마케팅",d:"7/20",k:"base",ref:""}],schedDet:[],
+  memo:"채용 완료 · 국내마케팅 김다정 7/20 입사 / 글로벌마케팅 김은비 3/23 부서이동 내부충원 · 오영근 3/25 퇴사",
+  intReason:"김은비 3/23 부서이동(제품기획팀 → 마케팅기획팀 글로벌마케팅)으로 글로벌마케팅 TO 내부충원 (△1)",addReason:""},
+ {company:"GMDSOFT",team:"제품기획팀",base:8,current:9,to_plan:0,to_int:0,to_new:1,to_rep:1,to_total:2,joined:2,scheduled:0,remain:0,total_after:9,notice:"마감",
+  posOpen:[],
+  joinDet:[{n:"류채영",p:"PD (Product Designer)",d:"6/15",k:"rep",ref:"김은비_3/23_부서이동"},{n:"이대성",p:"PO (Product Owner)",d:"8/12",k:"new",ref:""}],schedDet:[],
+  memo:"기초인원 석진우 이사님 포함 · 홍유진 9/14 출산휴가 예정",
+  addReason:"PO 신규 증원 1 + PD 김은비 3/23 부서이동 대체 1"},
+ {company:"GMDSOFT",team:"경영기획팀",base:6,current:7,to_plan:0,to_int:0,to_new:0,to_rep:2,to_total:2,joined:2,scheduled:0,remain:0,total_after:6,notice:"마감",
+  posOpen:[],
+  joinDet:[{n:"서우람",p:"재무회계",d:"3/9",k:"rep",ref:"이영서_3/31_퇴사"},{n:"김민영",p:"재무회계",d:"8/24",k:"rep",ref:"이규열_하반기_퇴사예정"}],schedDet:[],
+  memo:"이규열 육아휴직 26.08.24~27.08.23 (남성육아휴직) · 하반기 퇴사예정, 중도퇴사 시 휴직 종료",
+  addReason:"이영서 3/31 퇴사 대체 1 + 이규열 하반기 퇴사예정 대체 1"},
+ {company:"GMDSOFT",team:"경영진(CEO,CTO)",base:2,current:2,to_plan:0,to_int:0,to_new:0,to_rep:0,to_total:0,joined:0,scheduled:0,remain:0,total_after:2,notice:"–",
+  posOpen:[],joinDet:[],schedDet:[],memo:"TO 산정 대상 제외",addReason:""},
+ {company:"더스팟",team:"더스팟",base:6,current:7,to_plan:1,to_int:0,to_new:0,to_rep:0,to_total:1,joined:1,scheduled:0,remain:0,total_after:7,notice:"마감",
   posOpen:[],joinDet:[{n:"이정원",p:"획득기술연구",d:"4/13",k:"base",ref:""}],schedDet:[],memo:"",addReason:""},
- {company:"GMDSOFT India",team:"GMDSOFT India",base:0,current:2,to_plan:3,to_add:0,to_total:3,joined:1,scheduled:0,remain:2,total_after:4,
-  posOpen:[{t:"포털지원",n:1,k:"base",ref:"",when:""},{t:"기술지원",n:1,k:"base",ref:"",when:""}],joinDet:[{n:"MANASA",p:"기술지원",d:"6/1",k:"base",ref:""}],schedDet:[],memo:"",addReason:""}
+ {company:"GMDSOFT India",team:"GMDSOFT India",base:0,current:2,to_plan:3,to_int:0,to_new:0,to_rep:0,to_total:3,joined:1,scheduled:0,remain:2,total_after:4,notice:"–",
+  posOpen:[{t:"포털지원",n:1,k:"base",ref:"",when:""},{t:"기술지원",n:1,k:"base",ref:"",when:""}],
+  joinDet:[{n:"RAJA",p:"기술지원",d:"8/10",k:"base",ref:"대체_MANASA"}],schedDet:[],
+  memo:"PARTH 5/1 전적 · MANASA 6/1 입사 후 8/16 퇴사",addReason:""}
 ];
+DATA.forEach(d=>{d.to_add=d.to_new+d.to_rep;});
 
 /* 통합채용 JD — 시트 원문 그대로 (draft=1: 잡코리아 로그인 불가로 역할 기반 임시 초안) */
 const JD=[
@@ -550,28 +613,60 @@ const JD=[
   pref:["- 기술지원 경험이 있는 분","- 디지털 포렌식/정보보안 관심이 있는 분"]}
 ];
 
-const CHANNELS=[{name:"잡코리아",n:3,detail:"김정민, 윤지완, 류채영"},{name:"사람인",n:3,detail:"권형근, 오영근, 김다정"},{name:"드림핵CTF",n:1,detail:"오상원"},{name:"사내추천/기타",n:1,detail:"서우람 (서칭이력서)"}];
+const CHANNELS=[
+ {name:"잡코리아",n:3,detail:"김정민, 윤지완, 류채영"},
+ {name:"사람인",n:2,detail:"권형근, 김다정 (+ 이경은 9/1 입사예정)"},
+ {name:"드림핵CTF",n:1,detail:"오상원"},
+ {name:"사내추천/기타",n:3,detail:"서우람, 이대성, 김민영 · 서칭이력서 2 / 사내추천 1"}
+];
+
+/* 2026년 입사자 명단 (성비 산출 기준 · 「정보」 파일) */
+const HIRE2026=[
+ {n:"권형근",g:"남",org:"개발2팀",job:"개발",d:"2/2",st:"재직"},
+ {n:"김정민",g:"남",org:"아티팩트연구파트",job:"기술직군",d:"2/23",st:"재직"},
+ {n:"서우람",g:"남",org:"재무파트",job:"관리",d:"3/9",st:"재직"},
+ {n:"오상원",g:"남",org:"보안연구파트",job:"개발",d:"3/16",st:"재직"},
+ {n:"오영근",g:"남",org:"마케팅기획팀",job:"마케팅",d:"3/23",st:"퇴직"},
+ {n:"윤지완",g:"남",org:"기술응용파트",job:"개발",d:"6/1",st:"재직"},
+ {n:"류채영",g:"여",org:"UX파트",job:"제품기획",d:"6/15",st:"재직"},
+ {n:"김다정",g:"여",org:"마케팅기획팀",job:"마케팅",d:"7/20",st:"재직"},
+ {n:"이대성",g:"남",org:"제품기획팀",job:"제품기획",d:"8/12",st:"재직"},
+ {n:"김민영",g:"남",org:"재무파트",job:"관리",d:"8/24",st:"재직"},
+ {n:"이경은",g:"여",org:"QA팀",job:"개발",d:"9/1",st:"입사예정"}
+];
+
+/* 대체채용 요청서 상신 전 TO (총 TO 미반영) */
+const PENDING=[
+ {team:"QA팀",n:"강승희",reason:"2/4 퇴사",kind:"퇴사"},
+ {team:"국내사업팀",n:"박상준",reason:"8/3 퇴사",kind:"퇴사"},
+ {team:"개발2팀",n:"이강희",reason:"8/10 부서이동 (→ 개발3팀)",kind:"부서이동"},
+ {team:"개발3팀",n:"심재혁",reason:"8/10 부서이동 (→ 개발1팀)",kind:"부서이동"}
+];
 
 const MOVE=[
+ {n:"신영수",fromT:"글로벌사업팀",fromP:"해외영업",toT:"국내사업팀",toP:"상품기술지원",d:"2/1",type:"부서이동"},
+ {n:"김은비",fromT:"제품기획팀",fromP:"TW(PD)",toT:"마케팅기획팀",toP:"글로벌마케팅",d:"3/23",type:"부서이동"},
  {n:"김정국",fromT:"AI팀",fromP:"인프라관리",toT:"개발1팀 인프라파트",toP:"인프라관리",d:"6/1",type:"부서이동"},
  {n:"정재봉",fromT:"개발1팀 플랫폼파트",fromP:"플랫폼개발",toT:"개발1팀 인프라파트",toP:"인프라관리",d:"6/1",type:"파트이동"},
- {n:"신영수",fromT:"글로벌사업팀",fromP:"해외영업",toT:"국내사업팀",toP:"상품기술지원",d:"2/1",type:"부서이동"},
- {n:"김은비",fromT:"제품기획팀",fromP:"TW(PD)",toT:"마케팅기획팀",toP:"글로벌마케팅",d:"3/23",type:"부서이동"}
+ {n:"김보연",fromT:"FRONT팀",fromP:"현장지원",toT:"국내사업팀",toP:"현장지원",d:"8/1",type:"부서이동"},
+ {n:"심재혁",fromT:"개발3팀",fromP:"응용프로그램개발",toT:"개발1팀 플랫폼파트",toP:"웹개발",d:"8/10",type:"부서이동"},
+ {n:"이강희",fromT:"개발2팀",fromP:"응용프로그램개발",toT:"개발3팀",toP:"응용프로그램개발",d:"8/10",type:"부서이동"}
 ];
 const RESIGN=[
- {n:"강승희",team:"QA팀",p:"QA",d:"2/4"},{n:"오영근",team:"마케팅기획팀",p:"국내마케팅",d:"3/25"},
- {n:"이영서",team:"경영기획팀",p:"재무회계",d:"3/31"},{n:"금상현",team:"FRONT팀",p:"국내 기술지원",d:"5/26"},
- {n:"김대기",team:"분석팀",p:"아티팩트연구",d:"6/1"},{n:"신영수",team:"국내사업팀",p:"상품기술지원",d:"7/16"}
+ {n:"강승희",team:"QA팀",p:"QA",d:"2/4"},
+ {n:"오영근",team:"마케팅기획팀",p:"국내마케팅",d:"3/25"},
+ {n:"이영서",team:"경영기획팀",p:"재무회계",d:"3/31"},
+ {n:"금상현",team:"FRONT팀",p:"국내 기술지원",d:"5/26"},
+ {n:"김대기",team:"분석팀",p:"아티팩트연구",d:"6/1"},
+ {n:"신영수",team:"국내사업팀",p:"상품기술지원",d:"7/16"},
+ {n:"박상준",team:"국내사업팀",p:"–",d:"8/3",note:"대체채용 요청서 상신 전"}
 ];
 const RESIGN_PLAN=[
- {n:"이규열",team:"경영기획팀",p:"재무회계",d:"하반기 예정",note:""},
- {n:"김성환",team:"FRONT팀",p:"현장지원",d:"8월말 예정",note:"퇴사 이후 부서이동예정 - 국내사업팀(대체TO반영)"}
+ {n:"김성환",team:"FRONT팀",p:"현장지원",d:"8/31 예정",note:"현장지원 직무 국내사업팀 이관 · 대체TO 국내사업팀 반영"},
+ {n:"이규열",team:"경영기획팀",p:"재무회계",d:"하반기 예정",note:"육아휴직 중(26.08.24~) · 중도퇴사 시 휴직 종료"}
 ];
 const LEAVE=[
  /* 휴직중 (status:"current") */
- {n:"이아름",team:"개발2팀",status:"current",
-  detail:[{label:"출산휴가",val:"90일 · 25.05.07 ~ 25.08.04"},{label:"육아휴직",val:"12개월 · 25.08.05 ~ 26.08.04"}],
-  ret:"2026.08.05(수)"},
  {n:"신남정",team:"글로벌사업팀",status:"current",sub:"글로벌사업팀 김수빈 (25.09.22 입사)",
   detail:[{label:"출산휴가",val:"90일 · 25.10.13 ~ 26.01.10"},{label:"육아휴직",val:"12개월 · 26.01.11 ~ 27.01.10"}],
   ret:"2027.01.11(월)"},
@@ -581,14 +676,19 @@ const LEAVE=[
  {n:"이효준",team:"글로벌사업팀",status:"current",tag:"남성육아휴직",
   detail:[{label:"배우자출산휴가",val:"20일 · 26.05.11 ~ 06.09 (실근무일 기준)"},{label:"육아휴직",val:"3개월 · 26.06.10 ~ 26.09.09"}],
   ret:"2026.09.10(목)"},
- {n:"심재혁",team:"개발3팀",status:"current",tag:"상병휴직",
-  detail:[{label:"휴직기간",val:"26.07.09 ~ 26.08.08"}],
-  ret:"2026.08.10(월)"},
  /* 휴직예정 (status:"planned") */
- {n:"홍성은",team:"개발4팀",status:"planned",due:"2026.09.11"},
- {n:"홍유진",team:"제품기획팀",status:"planned",due:"2026.09.19"},
- {n:"최윤서",team:"AI팀",status:"planned",due:"2026.10.30"},
- {n:"박소희",team:"QA팀",status:"planned",tag:"경산",due:"2027.03.08"}
+ {n:"홍성은",team:"개발4팀",status:"planned",due:"2026.09.11",
+  detail:[{label:"출산휴가",val:"90일 · 26.09.01 ~ 26.11.29"},{label:"육아휴직",val:"8개월 1일 (243일간) · 26.11.30 ~ 27.07.30"}],
+  ret:"2027.08.02(월)"},
+ {n:"홍유진",team:"제품기획팀",status:"planned",due:"2026.09.19",
+  detail:[{label:"출산휴가",val:"90일 · 26.09.14 ~ 26.12.12"},{label:"육아휴직",val:"9개월 (274일간) · 26.12.13 ~ 27.09.12"}],
+  ret:"2027.09.13(월)"},
+ {n:"최윤서",team:"AI팀",status:"planned",due:"2026.10.30",
+  detail:[{label:"출산휴가",val:"90일 · 26.10.01 ~ 26.12.29"},{label:"육아휴직",val:"12개월 · 26.12.30 ~ 27.12.29"}],
+  note:"27년 발생연차 선사용 : 8일 2시간 (최대 50% 한도 내)",ret:"2027.12.30(목)"},
+ {n:"이규열",team:"경영기획팀",status:"planned",tag:"남성육아휴직",
+  detail:[{label:"배우자출산휴가",val:"10일 · 사용완료"},{label:"육아휴직",val:"12개월 · 26.08.24 ~ 27.08.23"}],
+  note:"중도퇴사 시 휴직 종료 (하반기 퇴사예정)",ret:"2027.08.24(화)"}
 ];
 function leaveKind(l){return l.status==="current"?"휴직중":"휴직예정";}
 
@@ -601,13 +701,41 @@ const COUNTS={join:JOIN_FLAT.length,sched:SCHED_FLAT.length,resign:RESIGN.length
 
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.tab).classList.add("active");hideTip();closePop();});
 
-function badge(k,ref){if(k==="rep")return ref?`<span class="tob rep">🔁 대체(${ref})</span>`:`<span class="tob rep">🔁 대체</span>`;if(k==="new")return `<span class="tob new">✨ 신규</span>`;return `<span class="tob base">🔹 기존 TO</span>`;}
+function badge(k,ref){if(k==="rep")return ref?`<span class="tob rep">🔁 대체(${ref})</span>`:`<span class="tob rep">🔁 대체</span>`;if(k==="new")return `<span class="tob new">✨ 신규</span>`;return ref?`<span class="tob base">🔹 기존 TO (${ref})</span>`:`<span class="tob base">🔹 기존 TO</span>`;}
 function posLineHTML(p,idx,teamIdx){return `<li class="pos-li" data-team="${teamIdx}" data-pos="${idx}"><span class="pt2">${p.t} <b>${p.n}명</b></span><span class="badges">${badge(p.k,p.ref)}${p.when?`<span class="when">🗓 ${p.when}</span>`:""}</span></li>`;}
 function jdFor(team,title){return JD.filter(j=>j.team===team&&(j.title===title||j.title.indexOf(title)===0||title.indexOf(j.title)===0));}
 
 const tip=document.getElementById("tip");
 function tHead(t,n){return `<div class="tt"><span>${t}</span>${n!=null?`<span class="tn">${n}명</span>`:""}</div>`;}
 function liRows(arr){return arr.map(x=>`<li><span class="w">${x[0]}</span><span class="m">${x[1]}</span></li>`).join("");}
+/* ===== 2026년 입사자 성비 ===== */
+const G_ACT=HIRE2026.filter(h=>h.st==="재직"),G_SCH=HIRE2026.filter(h=>h.st==="입사예정"),G_OUT=HIRE2026.filter(h=>h.st==="퇴직");
+function gcnt(arr){return {m:arr.filter(h=>h.g==="남").length,f:arr.filter(h=>h.g==="여").length,t:arr.length};}
+function gpct(v,t){return t?(Math.round(v/t*1000)/10):0;}
+function gRow(lbl,arr){const c=gcnt(arr);if(!c.t)return "";
+  const mp=gpct(c.m,c.t),fp=gpct(c.f,c.t);
+  return `<div class="gxrow"><div class="gxl">${lbl} · 총 ${c.t}명</div>`+
+   `<div class="gxbar"><i style="width:${mp}%;background:#4f9ae0"></i><i style="width:${fp}%;background:#e56a89"></i></div>`+
+   `<div class="gxn"><span class="g-m">남 ${c.m}명 (${mp}%)</span><span class="g-f">여 ${c.f}명 (${fp}%)</span></div></div>`;}
+function genderTip(){
+  return tHead("2026년 입사자 성비",null)+`<div class="gxwrap">`+
+    gRow("재직 중 입사자",G_ACT)+gRow("입사예정 포함",G_ACT.concat(G_SCH))+
+    `</div><div class="clk">클릭 → 명단 · 직군별 성비 상세</div>`;
+}
+function showGender(){
+  const jobs=[...new Set(HIRE2026.map(h=>h.job))];
+  let h=popHead("2026년 입사자 성비",HIRE2026.length)+
+    `<div class="pop-hint">「정보」 파일 기준 · 재직 ${G_ACT.length}명 · 입사예정 ${G_SCH.length}명 · 퇴직 ${G_OUT.length}명</div>`+
+    `<div class="pop-gx">`+gRow("재직 중 입사자",G_ACT)+gRow("입사예정 포함",G_ACT.concat(G_SCH))+gRow("2026년 채용 전체 (퇴직 포함)",HIRE2026)+`</div>`;
+  h+=`<div class="pop-sub">직군별 성비</div><table class="ptbl"><thead><tr><th>직군</th><th>남</th><th>여</th><th>계</th><th>여성 비율</th></tr></thead><tbody>`+
+    jobs.map(j=>{const c=gcnt(HIRE2026.filter(x=>x.job===j));return `<tr><td class="nm">${j}</td><td class="g-m">${c.m}</td><td class="g-f">${c.f}</td><td>${c.t}</td><td>${gpct(c.f,c.t)}%</td></tr>`;}).join("")+
+    `</tbody></table>`;
+  h+=`<div class="pop-sub">입사자 명단</div><table class="ptbl"><thead><tr><th>이름</th><th>성별</th><th>소속</th><th>직군</th><th>입사일</th><th>상태</th></tr></thead><tbody>`+
+    HIRE2026.map(x=>`<tr><td class="nm">${x.n}</td><td class="${x.g==="남"?"g-m":"g-f"}" style="font-weight:800">${x.g}</td><td>${x.org}</td><td>${x.job}</td><td>${x.d}</td><td>${x.st==="재직"?'<span class="tob base">재직</span>':x.st==="입사예정"?'<span class="tob new">입사예정</span>':'<span class="tob rep">퇴직</span>'}</td></tr>`).join("")+
+    `</tbody></table>`;
+  openWith(h);
+}
+
 const TIPS={
   join:()=>tHead("입사자",COUNTS.join)+`<ul>${liRows(JOIN_FLAT.map(j=>[j.n,`${j.team} · ${j.p} · ${j.d}`]))}</ul><div class="clk">클릭 → 팀별 상세 팝업</div>`,
   sched:()=>tHead("입사예정",COUNTS.sched)+`<ul>${liRows(SCHED_FLAT.map(j=>[j.n,`${j.team} · ${j.p} · ${j.d}`]))}</ul><div class="clk">클릭 → 팀별 상세 팝업</div>`,
@@ -670,19 +798,17 @@ function showLeaveDetail(idx,back){
   if(l.tag)h+=`<div class="cc"><span>특이사항</span><b style="color:var(--lav)">${l.tag}</b></div>`;
   h+=`</div>`;
   if(l.sub)h+=`<div class="pop-memo"><b>★ 대체인력</b> · ${l.sub}</div>`;
-  if(l.status==="current"){
-    h+=`<div class="pop-sub">휴직 상세</div><table class="ptbl"><tbody>`+l.detail.map(d=>`<tr><td class="nm" style="width:120px">${d.label}</td><td>${d.val}</td></tr>`).join("")+`</tbody></table>`;
-    if(l.note)h+=`<div class="pop-memo" style="background:var(--amber-bg);color:var(--amber)">* ${l.note}</div>`;
-    h+=`<div class="pop-memo" style="background:var(--green-bg);color:var(--green)">🔄 복직예정일 &nbsp;<b>${l.ret}</b></div>`;
-  }else{
-    h+=`<div class="pop-memo" style="background:var(--amber-bg);color:var(--amber)">🍼 출산예정일 &nbsp;<b>${l.due}</b></div>`;
-  }
+  if(l.detail&&l.detail.length)h+=`<div class="pop-sub">휴직 상세</div><table class="ptbl"><tbody>`+l.detail.map(d=>`<tr><td class="nm" style="width:132px">${d.label}</td><td>${d.val}</td></tr>`).join("")+`</tbody></table>`;
+  if(l.due)h+=`<div class="pop-memo" style="background:var(--amber-bg);color:var(--amber)">🍼 출산예정일 &nbsp;<b>${l.due}</b></div>`;
+  if(l.note)h+=`<div class="pop-memo" style="background:var(--amber-bg);color:var(--amber)">* ${l.note}</div>`;
+  if(l.ret)h+=`<div class="pop-memo" style="background:var(--green-bg);color:var(--green)">🔄 복직예정일 &nbsp;<b>${l.ret}</b></div>`;
   openWith(h);
   const bb=pop.querySelector(".backbtn");if(bb&&back)bb.onclick=back;
 }
 function showLeave(){openWith(popHead("휴직(예정)자",LEAVE.length)+`<div class="pop-hint">이름을 클릭하면 개인별 상세가 표시됩니다.</div><div style="padding:12px 17px 17px">`+leaveGroupHTML()+`</div>`);bindLeaveChips(pop,showLeave);}
 function showMemo(idx){const d=DATA[idx];openWith(popHead(d.team+" · 메모")+`<div class="pop-memo" style="margin-top:14px">📝 ${d.memo}</div>`);}
-function showAdd(idx){const d=DATA[idx];openWith(popHead(d.team+" · 추가요청 TO",d.to_add)+`<div class="pop-memo" style="margin-top:14px">➕ ${d.addReason||"추가요청 TO"}</div>`);}
+function showAdd(idx){const d=DATA[idx];openWith(popHead(d.team+" · 신규·대체채용 TO",d.to_add)+`<div class="pop-memo" style="margin-top:14px">➕ ${d.addReason||"신규·대체채용 TO"}</div>`);}
+function showInt(idx){const d=DATA[idx];openWith(popHead(d.team+" · 내부인력 충원",d.to_int)+`<div class="pop-memo" style="margin-top:14px">🔁 ${d.intReason||"내부인력 충원으로 TO 차감"}</div>`);}
 function showPos(teamIdx,posIdx,back){
   const d=DATA[teamIdx],p=d.posOpen[posIdx],jds=jdFor(d.team,p.t);
   let html=popHead(d.team+" · "+p.t,p.n)+(back?`<button class="backbtn">‹ 이전으로</button>`:"")+`<div class="pop-comp"><div class="cc"><span>채용 TO 구분</span><b>${badge(p.k,"")}</b></div>${p.ref?`<div class="cc"><span>사유</span><b style="text-align:right">${p.ref}</b></div>`:""}${p.when?`<div class="cc"><span>채용 희망시기</span><b>${p.when}</b></div>`:""}</div>`;
@@ -695,12 +821,12 @@ function jdBlock(j){const sec=(lbl,arr)=>arr&&arr.length?`<div class="jd-sec"><d
 function showJD(idx){const d=DATA[idx],jds=JD.filter(j=>j.team===d.team);if(!jds.length){openWith(popHead(d.team+" · 채용 JD")+`<div class="pop-memo" style="margin-top:14px">등록된 상세 JD가 없습니다.</div>`);return;}openWith(popHead(d.team+" · 채용 JD",jds.length)+jds.map(jdBlock).join(""));}
 function showTeam(idx){
   const d=DATA[idx];
-  let h=popHead(d.team+" 종합",null)+`<div class="pop-comp"><div class="cc"><span>현재 인원 (7.16)</span><b>${d.current}명</b></div><div class="cc"><span>총 TO (사업 ${d.to_plan}·추가 ${d.to_add})</span><b>${d.to_total}명</b></div><div class="cc"><span>입사 / 예정 / 잔여</span><b>${d.joined} / ${d.scheduled} / <span style="color:var(--coral)">${d.remain}</span>명</b></div><div class="cc"><span>채용완료 시 총원</span><b style="color:var(--purple)">${d.total_after}명</b></div></div>`;
+  let h=popHead(d.team+" 종합",null)+`<div class="pop-comp"><div class="cc"><span>현재 인원 (8.24)</span><b>${d.current}명</b></div><div class="cc"><span>총 TO (사업 ${d.to_plan}${d.to_int?" · 내부충원 "+d.to_int:""}${d.to_new?" · 신규 "+d.to_new:""}${d.to_rep?" · 대체 "+d.to_rep:""})</span><b>${d.to_total}명</b></div><div class="cc"><span>입사 / 예정 / 잔여</span><b>${d.joined} / ${d.scheduled} / <span style="color:var(--coral)">${d.remain}</span>명</b></div><div class="cc"><span>채용완료 시 총원</span><b style="color:var(--purple)">${d.total_after}명</b></div><div class="cc"><span>현재 공고 진행여부</span><b>${d.notice||"–"}</b></div></div>`;
   if(d.joinDet.length)h+=`<div class="pop-sub">✅ 입사 완료</div>`+joinTable(d.joinDet);
   if(d.schedDet.length)h+=`<div class="pop-sub">🕒 입사 예정</div>`+joinTable(d.schedDet);
   if(d.posOpen.length)h+=`<div class="pop-sub">🎯 잔여 포지션 (클릭 시 JD)</div><ul class="pop-pos">${d.posOpen.map((p,i)=>posLineHTML(p,i,idx)).join("")}</ul>`;else h+=`<div class="pop-memo">잔여 TO 없음 (채용 완료)</div>`;
   const mv=MOVE.filter(m=>m.fromT.indexOf(d.team)===0||m.toT.indexOf(d.team)===0),rs=RESIGN.filter(r=>r.team===d.team),lv=LEAVE.filter(l=>l.team===d.team);
-  if(mv.length||rs.length||lv.length){h+=`<div class="pop-sub">🔄 인력 변동</div><table class="ptbl"><tbody>`;mv.forEach(m=>h+=`<tr><td class="nm">${m.n}</td><td>${m.type}</td><td>${m.fromT} → ${m.toT}${m.d?" "+m.d:""}</td></tr>`);rs.forEach(r=>h+=`<tr><td class="nm">${r.n}</td><td>퇴사</td><td>${r.p} · ${r.d}</td></tr>`);lv.forEach(l=>h+=`<tr><td class="nm">${l.n}</td><td>${leaveKind(l)}${l.tag?" ("+l.tag+")":""}</td><td>${l.status==="planned"?"출산예정 "+l.due:"복직예정 "+l.ret}</td></tr>`);h+=`</tbody></table>`;}
+  if(mv.length||rs.length||lv.length){h+=`<div class="pop-sub">🔄 인력 변동</div><table class="ptbl"><tbody>`;mv.forEach(m=>h+=`<tr><td class="nm">${m.n}</td><td>${m.type}</td><td>${m.fromT} → ${m.toT}${m.d?" "+m.d:""}</td></tr>`);rs.forEach(r=>h+=`<tr><td class="nm">${r.n}</td><td>퇴사</td><td>${r.p} · ${r.d}</td></tr>`);lv.forEach(l=>h+=`<tr><td class="nm">${l.n}</td><td>${leaveKind(l)}${l.tag?" ("+l.tag+")":""}</td><td>${l.due?"출산예정 "+l.due:(l.ret?"복직예정 "+l.ret:"–")}</td></tr>`);h+=`</tbody></table>`;}
   if(d.memo)h+=`<div class="pop-memo">📝 ${d.memo}</div>`;
   openWith(h);bindPosLines(pop,()=>showTeam(idx));
 }
@@ -709,8 +835,23 @@ function bindPosLines(root,back){root.querySelectorAll(".pos-li").forEach(el=>{c
 
 document.querySelectorAll("[data-tip]").forEach(el=>{bindTip(el,TIPS[el.dataset.tip]);el.addEventListener("click",()=>dispatchPop(el.dataset.tip));});
 document.querySelectorAll("[data-count]").forEach(el=>{el.innerHTML=COUNTS[el.dataset.count]+'<small>명</small>';});
+document.querySelectorAll("[data-gx]").forEach(el=>{
+  el.addEventListener("mouseenter",e=>{if(pop.style.display!=="block")showTip(genderTip(),e);});
+  el.addEventListener("mousemove",e=>{if(pop.style.display!=="block")moveTip(e);});
+  el.addEventListener("mouseleave",e=>{const host=el.closest("[data-tip]");if(host&&pop.style.display!=="block"){showTip(TIPS[host.dataset.tip](),e);}else{hideTip();}});
+  el.addEventListener("click",ev=>{ev.stopPropagation();showGender();});
+});
 
-(function(){const inP=T.in/T.to*100,scP=T.sch/T.to*100,reP=T.rem/T.to*100;document.getElementById("heroBar").innerHTML=`<div class="seg" style="width:${inP}%;background:#33b39a"></div><div class="seg" style="width:${scP}%;background:#e8ad2a"></div><div class="seg" style="width:${reP}%;background:#e56a89"></div>`;document.getElementById("heroPct").textContent=`충원 ${(inP+scP).toFixed(0)}% · 잔여 ${reP.toFixed(0)}%`;document.getElementById("hf-hire").textContent=T.in+T.sch;document.getElementById("hf-rem").textContent=T.rem;})();
+(function(){const inP=T.in/T.to*100,scP=T.sch/T.to*100,reP=T.rem/T.to*100;document.getElementById("heroBar").innerHTML=`<div class="seg" style="width:${inP}%;background:#33b39a"></div><div class="seg" style="width:${scP}%;background:#e8ad2a"></div><div class="seg" style="width:${reP}%;background:#e56a89"></div>`;document.getElementById("heroPct").textContent=`충원 ${(inP+scP).toFixed(0)}% · 잔여 ${reP.toFixed(0)}%`;document.getElementById("hf-hire").textContent=T.in+T.sch;document.getElementById("hf-rem").textContent=T.rem;
+ document.getElementById("hf-cur").innerHTML=T.cur+'<small>명</small>';
+ document.getElementById("hf-fin").innerHTML=T.fin+'<small>명</small>';
+ document.getElementById("heroScale").textContent=`총 TO ${T.to}명 기준`;
+ document.getElementById("chTo").textContent=T.to;document.getElementById("chIn").textContent=T.in;
+ document.getElementById("chSch").textContent=T.sch;document.getElementById("chRem").textContent=T.rem;
+ document.getElementById("posTitleN").textContent=`(총 ${T.rem}명)`;
+ const gAct=gcnt(G_ACT);
+ document.getElementById("footStat").innerHTML=`현재 총원 ${T.cur}명 · 총 TO ${T.to} (사업계획 ${sum("to_plan")} · 내부충원 ${sum("to_int")} · 신규 ${sum("to_new")} · 대체 ${sum("to_rep")}) · 입사 ${T.in} · 입사예정 ${T.sch} · 잔여 TO ${T.rem} · 채용완료 시 총원 ${T.fin}명 · 2026년 입사자 성비 남 ${gAct.m} : 여 ${gAct.f} (재직 기준)`;
+ })();
 
 window.__charts.push(new Chart(document.getElementById("donut"),{type:"doughnut",data:{labels:["입사 완료","입사 예정","잔여 TO"],datasets:[{data:[T.in,T.sch,T.rem],backgroundColor:["#33b39a","#e8ad2a","#e56a89"],borderWidth:3,borderColor:chartBorderColor()}]},options:{responsive:true,maintainAspectRatio:false,cutout:"58%",layout:{padding:6},plugins:{legend:{position:"bottom",labels:{font:{size:12.5},padding:16,boxWidth:14}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}명`}}}}}));
 
@@ -725,8 +866,9 @@ function fmt(v){return (v===null||v===undefined||v==="")?"–":v;}
 function cellTip(type,d){
   if(type==="j")return tHead(d.team+" 입사자",d.joined)+`<ul>${liRows(d.joinDet.map(j=>[j.n,j.p+" · "+j.d]))}</ul><div class="clk">클릭 → 팝업 고정</div>`;
   if(type==="s")return tHead(d.team+" 입사예정",d.scheduled)+`<ul>${liRows(d.schedDet.map(j=>[j.n,j.p+" · "+j.d]))}</ul><div class="clk">클릭 → 팝업 고정</div>`;
-  if(type==="t")return tHead(d.team+" 총 TO",d.to_total)+`<ul><li><span class="w">사업계획</span><span class="m">${d.to_plan}명</span></li><li><span class="w">추가요청</span><span class="m">${d.to_add}명</span></li><li><span class="w">잔여</span><span class="m">${d.remain}명</span></li></ul><div class="clk">클릭 → 포지션 상세</div>`;
-  if(type==="add")return tHead(d.team+" 추가요청 TO",d.to_add)+`<div style="padding-top:2px">➕ ${d.addReason}</div>`;
+  if(type==="t")return tHead(d.team+" 총 TO",d.to_total)+`<ul><li><span class="w">사업계획상 TO</span><span class="m">${d.to_plan}명</span></li><li><span class="w">내부인력 충원</span><span class="m">${d.to_int}명</span></li><li><span class="w">신규채용 TO</span><span class="m">${d.to_new}명</span></li><li><span class="w">대체채용 TO</span><span class="m">${d.to_rep}명</span></li><li><span class="w">입사 / 예정</span><span class="m">${d.joined} / ${d.scheduled}명</span></li><li><span class="w">잔여 TO</span><span class="m">${d.remain}명</span></li></ul><div class="clk">클릭 → 포지션 상세</div>`;
+  if(type==="add")return tHead(d.team+" 신규·대체채용 TO",d.to_add)+`<div style="padding-top:2px">➕ ${d.addReason}</div>`;
+  if(type==="int")return tHead(d.team+" 내부인력 충원",d.to_int)+`<div style="padding-top:2px">🔁 ${d.intReason}</div>`;
   if(type==="jd"){const j=JD.filter(x=>x.team===d.team);return tHead(d.team+" 채용 JD",j.length||null)+(j.length?`<ul>${liRows(j.map(x=>[x.title,x.career+(x.draft?" · 초안":"")]))}</ul><div class="clk">클릭 → JD 상세</div>`:`<div style="padding-top:2px">등록된 상세 JD 없음</div>`);}
   return tHead(d.team+" 잔여 포지션",d.remain)+`<ul>${d.posOpen.map(p=>`<li><span class="w">${p.t}</span><span class="m">${p.n}명 · ${p.k==="rep"?"대체":p.k==="new"?"신규":"기존"}</span></li>`).join("")}</ul><div class="clk">클릭 → 팝업 고정</div>`;
 }
@@ -740,20 +882,22 @@ function render(){
   if(sortK){rows2.sort((a,b)=>{let x=a[sortK],y=b[sortK];if(sortK==="team")return x.localeCompare(y)*sortDir;x=x||0;y=y||0;return (x-y)*sortDir;});}
   tbody.innerHTML=rows2.map(d=>{const i=DATA.indexOf(d);
     const memoIc=d.memo?`<span class="memo-tag" data-cell="memo" data-i="${i}">📝 메모</span>`:"";
-    const ta=(d.to_add>0&&d.addReason)?`<span class="num-link" data-cell="add" data-i="${i}">${d.to_add}</span>`:fmt(d.to_add);
+    const ti=(d.to_int!==0&&d.intReason)?`<span class="num-link" data-cell="int" data-i="${i}" style="color:var(--lav)">${d.to_int}</span>`:(d.to_int?d.to_int:"–");
+    const tn=d.to_new>0?`<span style="font-weight:700;color:var(--green)">${d.to_new}</span>`:"–";
+    const tr2=(d.to_rep>0&&d.addReason)?`<span class="num-link" data-cell="add" data-i="${i}">${d.to_rep}</span>`:(d.to_rep>0?String(d.to_rep):"–");
     const to=d.to_total>0?`<span class="num-link" data-cell="t" data-i="${i}">${d.to_total}</span>`:"–";
     const jn=d.joined>0?`<span class="pill g clickable" data-cell="j" data-i="${i}">${d.joined}</span>`:'<span class="pill z">0</span>';
     const sc=d.scheduled>0?`<span class="pill a clickable" data-cell="s" data-i="${i}">${d.scheduled}</span>`:'<span class="pill z">0</span>';
     const rm=d.remain>0?`<span class="pill r clickable" data-cell="r" data-i="${i}">${d.remain}</span>`:'<span class="pill z">0</span>';
     const jd=`<span class="jd-btn" data-cell="jd" data-i="${i}">📄 JD</span>`;
-    return `<tr class="tr-click" data-row="${i}"><td class="tleft"><span class="team-link">${d.team}</span>${memoIc}<div style="font-size:11px;color:var(--muted);font-weight:500">${d.company}</div></td><td>${fmt(d.base)}</td><td><b>${d.current}</b></td><td>${fmt(d.to_plan)}</td><td>${ta}</td><td>${to}</td><td>${jn}</td><td>${sc}</td><td>${rm}</td><td><b>${d.total_after}</b></td><td>${jd}</td></tr>`;}).join("");
+    return `<tr class="tr-click" data-row="${i}"><td class="tleft"><span class="team-link">${d.team}</span>${memoIc}<div style="font-size:11px;color:var(--muted);font-weight:500">${d.company}</div></td><td>${fmt(d.base)}</td><td><b>${d.current}</b></td><td>${d.to_plan>0?d.to_plan:"–"}</td><td>${ti}</td><td>${tn}</td><td>${tr2}</td><td>${to}</td><td>${jn}</td><td>${sc}</td><td>${rm}</td><td><b>${d.total_after}</b></td><td>${jd}</td></tr>`;}).join("");
   const s=(k)=>rows2.reduce((a,d)=>a+(d[k]||0),0);
-  tfoot.innerHTML=`<td class="tleft">합계 (${rows2.length})</td><td>${s("base")}</td><td>${s("current")}</td><td>${s("to_plan")}</td><td>${s("to_add")}</td><td>${s("to_total")}</td><td>${s("joined")}</td><td>${s("scheduled")}</td><td>${s("remain")}</td><td>${s("total_after")}</td><td>–</td>`;
+  tfoot.innerHTML=`<td class="tleft">합계 (${rows2.length})</td><td>${s("base")}</td><td>${s("current")}</td><td>${s("to_plan")}</td><td>${s("to_int")}</td><td>${s("to_new")}</td><td>${s("to_rep")}</td><td>${s("to_total")}</td><td>${s("joined")}</td><td>${s("scheduled")}</td><td>${s("remain")}</td><td>${s("total_after")}</td><td>–</td>`;
   tbody.querySelectorAll("[data-cell]").forEach(el=>{const d=DATA[+el.dataset.i],type=el.dataset.cell;
     el.addEventListener("mouseenter",e=>{if(pop.style.display!=="block")showTip(cellTip(type,d),e);});
     el.addEventListener("mousemove",e=>{if(pop.style.display!=="block")moveTip(e);});
     el.addEventListener("mouseleave",hideTip);
-    el.addEventListener("click",ev=>{ev.stopPropagation();if(type==="memo")showMemo(+el.dataset.i);else if(type==="jd")showJD(+el.dataset.i);else if(type==="add")showAdd(+el.dataset.i);else showDetail(type==="j"?"join":type==="s"?"sched":type==="t"?"total":"remain",+el.dataset.i,false);});
+    el.addEventListener("click",ev=>{ev.stopPropagation();if(type==="memo")showMemo(+el.dataset.i);else if(type==="jd")showJD(+el.dataset.i);else if(type==="add")showAdd(+el.dataset.i);else if(type==="int")showInt(+el.dataset.i);else showDetail(type==="j"?"join":type==="s"?"sched":type==="t"?"total":"remain",+el.dataset.i,false);});
   });
   tbody.querySelectorAll("tr.tr-click").forEach(tr=>tr.addEventListener("click",()=>showTeam(+tr.dataset.row)));
 }
@@ -761,21 +905,30 @@ document.querySelectorAll("#tbl thead th[data-k]").forEach(th=>th.onclick=()=>{c
 ["search","compFilter","remFilter"].forEach(id=>document.getElementById(id).oninput=render);
 render();
 
-document.getElementById("posGrid").innerHTML=DATA.filter(d=>d.remain>0).map(d=>{const idx=DATA.indexOf(d);const posHtml=d.posOpen.map((p,i)=>posLineHTML(p,i,idx)).join("");const memoHtml=d.memo?`<div class="memo">📝 ${d.memo}</div>`:"";return `<div class="pos-card"><div class="ph"><span class="team">${d.team}</span><span class="cnt">잔여 ${d.remain}</span></div><ul class="pos-list">${posHtml}</ul>${memoHtml}</div>`;}).join("");
+document.getElementById("posGrid").innerHTML=DATA.filter(d=>d.remain>0).map(d=>{const idx=DATA.indexOf(d);const posHtml=d.posOpen.map((p,i)=>posLineHTML(p,i,idx)).join("");const memoHtml=d.memo?`<div class="memo">📝 ${d.memo}</div>`:"";return `<div class="pos-card"><div class="ph"><span class="team">${d.team}</span><span class="cnt">잔여 ${d.remain}</span></div><div style="font-size:12.5px;color:var(--muted);font-weight:600;margin:-4px 0 6px">📢 공고 : ${d.notice||"–"}</div><ul class="pos-list">${posHtml}</ul>${memoHtml}</div>`;}).join("");
 bindPosLines(document.getElementById("posGrid"),null);
 
 document.getElementById("joinList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>팀</th><th>포지션</th><th>입사(예정)일</th></tr></thead><tbody>`+JOIN_FLAT.map(j=>`<tr><td><span class="tob base">입사</span></td><td class="nm">${j.n}</td><td>${j.team}</td><td>${j.p}</td><td>${j.d}</td></tr>`).join("")+SCHED_FLAT.map(j=>`<tr><td><span class="tob new">예정</span></td><td class="nm">${j.n}</td><td>${j.team}</td><td>${j.p}</td><td>${j.d}</td></tr>`).join("")+`</tbody></table>`;
 document.getElementById("resList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>팀</th><th>포지션</th><th>시기</th><th>비고</th></tr></thead><tbody>`+RESIGN.map(r=>`<tr><td><span class="tob rep">퇴사</span></td><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}</td><td>${r.note?r.note:"-"}</td></tr>`).join("")+RESIGN_PLAN.map(r=>`<tr><td><span class="tob pt">예정</span></td><td class="nm">${r.n}</td><td>${r.team}</td><td>${r.p}</td><td>${r.d}</td><td>${r.note?r.note:"-"}</td></tr>`).join("")+`</tbody></table>`;
 document.getElementById("movList").innerHTML=`<table class="mtbl"><thead><tr><th>구분</th><th>이름</th><th>이동 전</th><th>이동 후</th></tr></thead><tbody>`+MOVE.map(m=>`<tr><td>${m.type==="부서이동"?'<span class="tob mv">부서</span>':'<span class="tob pt">파트</span>'}</td><td class="nm">${m.n}</td><td>${m.fromT}<br><span class="posv">${m.fromP}</span></td><td>${m.toT}<br><span class="posv">${m.toP}</span>${m.d?` ${m.d}`:""}</td></tr>`).join("")+`</tbody></table>`;
+document.getElementById("pendN").textContent=PENDING.length+"건";
+document.getElementById("pendList").innerHTML=`<table class="mtbl"><thead><tr><th>팀</th><th>대상자</th><th>구분</th><th>사유</th></tr></thead><tbody>`+PENDING.map(x=>`<tr><td style="font-weight:700">${x.team}</td><td class="nm">${x.n}</td><td>${x.kind==="퇴사"?'<span class="tob rep">퇴사</span>':'<span class="tob mv">부서이동</span>'}</td><td>${x.reason}</td></tr>`).join("")+`</tbody></table>`;
+
 document.getElementById("lvList").innerHTML=leaveGroupHTML();
 bindLeaveChips(document.getElementById("lvList"),null);
 
 /* ===== Executive summary ===== */
 (function(){
   const filled=T.to-T.rem, pct=Math.round(filled/T.to*100);
+  document.getElementById("xTo").innerHTML=T.to+'<small>명</small>';
   document.getElementById("xFilled").innerHTML=filled+'<small>명</small>';
+  document.getElementById("xRem").innerHTML=T.rem+'<small>명</small>';
+  document.getElementById("xInt").innerHTML=Math.abs(sum("to_int"))+'<small>명</small>';
+  document.getElementById("xOut").innerHTML=RESIGN_PLAN.length+'<small>명</small>';
   const xf=document.getElementById("xFill");xf.style.width=pct+"%";xf.textContent=pct+"%";
-  document.getElementById("xFilledLbl").textContent=`확보 ${filled}명 (입사 ${T.in}·예정 ${T.sch}·부서이동 전환 1)`;
+  document.getElementById("xFilledLbl").textContent=`확보 ${filled}명 (입사 ${T.in} · 입사예정 ${T.sch})`;
+  document.getElementById("xGoalLbl").textContent=`목표 ${T.to}명`;
+  document.getElementById("xReasonN").textContent=`· 잔여 ${T.rem}명 기준`;
   let base=0,rep=0,neo=0;DATA.forEach(d=>d.posOpen.forEach(p=>{if(p.k==="rep")rep+=p.n;else if(p.k==="new")neo+=p.n;else base+=p.n;}));
   window.__charts.push(new Chart(document.getElementById("reasonDonut"),{type:"doughnut",data:{labels:["사업계획(기존 TO)","결원 대체","신규 증원"],datasets:[{data:[base,rep,neo],backgroundColor:["#4f9ae0","#e56a89","#46bd9c"],borderWidth:3,borderColor:chartBorderColor()}]},options:{responsive:true,maintainAspectRatio:false,cutout:"58%",plugins:{legend:{position:"bottom",labels:{font:{size:12},padding:14,boxWidth:14}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}명`}}}}}));
   const rowsX=DATA.filter(d=>d.to_total>0);
